@@ -22,5 +22,5 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
-    - name: SS14.Launcher.Tests
-      run: dotnet test SS14.Launcher.Tests/SS14.Launcher.Tests.csproj -v n
+    - name: Trauma.Launcher.Tests
+      run: dotnet test Trauma.Launcher.Tests/Trauma.Launcher.Tests.csproj -v n
