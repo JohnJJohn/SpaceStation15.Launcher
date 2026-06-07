@@ -1,4 +1,3 @@
-using Avalonia.Controls;
 
 namespace Trauma.Launcher.Views.MainWindowTabs;
 

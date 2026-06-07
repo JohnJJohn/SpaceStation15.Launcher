@@ -1,4 +1,3 @@
-﻿using System;
 using System.Runtime.InteropServices;
 using JetBrains.Annotations;
 using Trauma.Launcher.Utility;

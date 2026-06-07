@@ -6,11 +6,8 @@
              xmlns:v="using:Trauma.Launcher.Views"
              xmlns:loc="using:Trauma.Launcher.Localization"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Trauma.Launcher.Views.LanguageSelector">
-  <Design.DataContext>
-    <vm:LanguageSelectorViewModel />
-  </Design.DataContext>
-
+             x:Class="Trauma.Launcher.Views.LanguageSelector"
+             x:DataType="vm:LanguageSelectorViewModel">
   <v:DropDown IsDropDownOpen="{Binding IsDropDownOpen, Mode=TwoWay}" Name="DropDown" Placement="TopEdgeAlignedLeft">
     <v:DropDown.HeaderContent>
       <v:IconLabel Icon="{DynamicResource 'InfoIcon-web'}" Content="{loc:Loc language-selector-label}" />

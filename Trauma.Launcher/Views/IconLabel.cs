@@ -1,5 +1,3 @@
-﻿using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Media;
@@ -7,7 +5,7 @@ using Avalonia.Metadata;
 
 namespace Trauma.Launcher.Views;
 
-public class IconLabel : TemplatedControl
+public sealed class IconLabel : TemplatedControl
 {
     public static readonly StyledProperty<object?> ContentProperty =
         ContentControl.ContentProperty.AddOwner<IconLabel>();

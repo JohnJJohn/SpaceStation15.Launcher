@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -121,7 +118,7 @@ public static class RidUtility
         [JsonInclude] [JsonPropertyName("runtimes")]
         public Dictionary<string, Runtime> Runtimes = default!;
 
-        public class Runtime
+        public sealed class Runtime
         {
             public bool Discovered;
 

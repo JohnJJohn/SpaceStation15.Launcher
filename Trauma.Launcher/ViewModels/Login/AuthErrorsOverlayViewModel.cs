@@ -3,7 +3,7 @@ using Trauma.Launcher.Localization;
 
 namespace Trauma.Launcher.ViewModels.Login;
 
-public class AuthErrorsOverlayViewModel : ViewModelBase
+public sealed class AuthErrorsOverlayViewModel : ViewModelBase
 {
     public IErrorOverlayOwner ParentVm { get; }
     public string Title { get; }

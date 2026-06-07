@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -396,14 +395,14 @@ public readonly struct RegisterResult
                               ?? throw new InvalidOperationException("This RegisterResult is not a failure.");
 }
 
-public enum RegisterResponseStatus
+public enum RegisterResponseStatus : byte
 {
     Registered,
     RegisteredNeedConfirmation
 }
 
 [Serializable]
-public class AuthApiException : Exception
+public sealed class AuthApiException : Exception
 {
     public AuthApiException()
     {

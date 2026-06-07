@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
@@ -14,7 +11,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 using DynamicData;
-using ReactiveUI;
 using Serilog;
 using Splat;
 using Trauma.Launcher.Models.Data;
@@ -28,7 +24,7 @@ namespace Trauma.Launcher.Models;
 /// Responsible for actually launching the game.
 /// Either by connecting to a game server, or by launching a local content bundle.
 /// </summary>
-public partial class Connector : ReactiveObject
+public sealed partial class Connector : ReactiveObject
 {
     private readonly Updater _updater;
     private readonly DataManager _cfg;
@@ -760,7 +756,7 @@ public partial class Connector : ReactiveObject
                     ArgumentList = {"-d", "com.apple.quarantine", appPath},
                     RedirectStandardError = true,
                     RedirectStandardOutput = true
-                });
+                })!;
 
                 PipeLogOutput(xattr);
 

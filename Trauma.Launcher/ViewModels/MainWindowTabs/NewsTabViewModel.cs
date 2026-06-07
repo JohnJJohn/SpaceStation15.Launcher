@@ -1,13 +1,10 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CodeHollow.FeedReader;
-using ReactiveUI;
 using Trauma.Launcher.Localization;
 
 namespace Trauma.Launcher.ViewModels.MainWindowTabs;
 
-public class NewsTabViewModel : MainWindowTabViewModel
+public sealed class NewsTabViewModel : MainWindowTabViewModel
 {
     private bool _startedPullingNews;
     private bool _newsPulled;

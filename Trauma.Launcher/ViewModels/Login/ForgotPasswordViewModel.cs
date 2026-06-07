@@ -1,15 +1,14 @@
-using ReactiveUI.Fody.Helpers;
 using Trauma.Launcher.Api;
 using Trauma.Launcher.Localization;
 
 namespace Trauma.Launcher.ViewModels.Login;
 
-public sealed class ForgotPasswordViewModel : BaseLoginViewModel
+public sealed partial class ForgotPasswordViewModel : BaseLoginViewModel
 {
     private readonly AuthApi _authApi;
     private readonly LocalizationManager _loc = LocalizationManager.Instance;
 
-    [Reactive] public string EditingEmail { get; set; } = "";
+    [Reactive] public string _editingEmail = "";
 
     private bool _errored;
 

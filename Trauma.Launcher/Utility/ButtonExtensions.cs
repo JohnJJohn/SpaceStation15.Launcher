@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Avalonia.Controls;
 using Splat;
 using Trauma.Launcher.Localization;
 

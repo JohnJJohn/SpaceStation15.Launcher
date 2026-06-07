@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace Trauma.Launcher.Utility;
 
 public static class CollectionExtensions

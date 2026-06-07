@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Threading;
 using DynamicData;
-using ReactiveUI;
 using Serilog;
 using Trauma.Launcher.Api;
 using Trauma.Launcher.Models.Data;

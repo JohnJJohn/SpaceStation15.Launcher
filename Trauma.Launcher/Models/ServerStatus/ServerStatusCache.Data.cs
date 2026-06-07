@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 

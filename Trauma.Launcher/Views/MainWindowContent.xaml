@@ -7,11 +7,8 @@
              xmlns:loc="using:Trauma.Launcher.Localization"
              xmlns:mainWindowTabs="using:Trauma.Launcher.ViewModels.MainWindowTabs"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Trauma.Launcher.Views.MainWindowContent">
-  <Design.DataContext>
-    <vm:MainWindowViewModel />
-  </Design.DataContext>
-
+             x:Class="Trauma.Launcher.Views.MainWindowContent"
+             x:DataType="vm:MainWindowViewModel">
   <Panel>
     <DockPanel LastChildFill="true">
       <!-- Header -->

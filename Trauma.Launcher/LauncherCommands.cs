@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -11,7 +10,7 @@ using Trauma.Launcher.ViewModels;
 
 namespace Trauma.Launcher;
 
-public class LauncherCommands
+public sealed class LauncherCommands
 {
     private static string _reason = "";
 

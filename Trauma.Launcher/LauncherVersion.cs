@@ -1,5 +1,3 @@
-using System;
-
 namespace Trauma.Launcher;
 
 public static class LauncherVersion

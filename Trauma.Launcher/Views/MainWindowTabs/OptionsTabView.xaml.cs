@@ -1,9 +1,6 @@
-using System;
-using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
-using ReactiveUI;
 using Splat;
 using Trauma.Launcher.Localization;
 using Trauma.Launcher.Utility;
@@ -46,6 +43,6 @@ public partial class OptionsTabView : UserControl
 
     private async void OpenHubSettings(object? sender, RoutedEventArgs args)
     {
-        await new HubSettingsDialog().ShowDialog((Window)this.GetVisualRoot()!);
+        await new HubSettingsDialog().ShowDialog((Window)this.GetPresentationSource()?.RootVisual!);
     }
 }

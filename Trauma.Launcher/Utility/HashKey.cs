@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace Trauma.Launcher.Utility;
 
 /// <summary>

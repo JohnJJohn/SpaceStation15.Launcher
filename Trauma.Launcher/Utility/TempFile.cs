@@ -1,5 +1,3 @@
-﻿using System.IO;
-
 namespace Trauma.Launcher.Utility;
 
 public static class TempFile

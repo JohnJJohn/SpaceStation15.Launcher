@@ -1,7 +1,4 @@
-using System;
 using System.Threading.Tasks;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Trauma.Launcher.Api;
 using Trauma.Launcher.Localization;
 using Trauma.Launcher.Models.Data;
@@ -9,18 +6,18 @@ using Trauma.Launcher.Models.Logins;
 
 namespace Trauma.Launcher.ViewModels.Login;
 
-public class LoginViewModel : BaseLoginViewModel
+public sealed partial class LoginViewModel : BaseLoginViewModel
 {
     private readonly AuthApi _authApi;
     private readonly LoginManager _loginMgr;
     private readonly DataManager _dataManager;
     private readonly LocalizationManager _loc = LocalizationManager.Instance;
 
-    [Reactive] public string EditingUsername { get; set; } = "";
-    [Reactive] public string EditingPassword { get; set; } = "";
+    [Reactive] public string _editingUsername = "";
+    [Reactive] public string _editingPassword = "";
 
-    [Reactive] public bool IsInputValid { get; private set; }
-    [Reactive] public bool IsPasswordVisible { get; set; }
+    [Reactive] public partial bool IsInputValid { get; private set; }
+    [Reactive] public bool _isPasswordVisible;
 
     public LoginViewModel(MainWindowLoginViewModel parentVm, AuthApi authApi,
         LoginManager loginMgr, DataManager dataManager) : base(parentVm)

@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.IO.Pipes;
 using System.Text;
 using System.Threading;
@@ -8,7 +6,7 @@ using Serilog;
 
 namespace Trauma.Launcher;
 
-public class LauncherMessaging
+public sealed class LauncherMessaging
 {
     /// <summary>
     /// Initial commands that are fed into the launcher commands system on startup of the launcher.

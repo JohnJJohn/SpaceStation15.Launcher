@@ -1,13 +1,12 @@
-using ReactiveUI.Fody.Helpers;
 using Trauma.Launcher.Api;
 
 namespace Trauma.Launcher.ViewModels.Login;
 
-public class ResendConfirmationViewModel : BaseLoginViewModel
+public sealed partial class ResendConfirmationViewModel : BaseLoginViewModel
 {
     private readonly AuthApi _authApi;
 
-    [Reactive] public string EditingEmail { get; set; } = "";
+    [Reactive] public partial string EditingEmail { get; set; } = "";
 
     private bool _errored;
 

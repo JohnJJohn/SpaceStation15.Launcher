@@ -1,12 +1,10 @@
-using System;
-using Avalonia;
 using Avalonia.Controls.Primitives;
 using Avalonia.Threading;
 using Trauma.Launcher.Localization;
 
 namespace Trauma.Launcher.Controls;
 
-public class TimerTextCell : TemplatedControl
+public sealed class TimerTextCell : TemplatedControl
 {
     private readonly LocalizationManager _loc = LocalizationManager.Instance;
 

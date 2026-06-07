@@ -1,12 +1,10 @@
-using System;
-using Avalonia;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using Avalonia.Visuals.Platform;
 
 namespace Trauma.Launcher.Views;
 
-public class AngleBox : Shape
+public sealed class AngleBox : Shape
 {
     public static readonly StyledProperty<double> CornerSizeProperty
         = AvaloniaProperty.Register<AngleBox, double>("CornerSize");

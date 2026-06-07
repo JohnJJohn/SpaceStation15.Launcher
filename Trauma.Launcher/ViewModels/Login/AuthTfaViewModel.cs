@@ -1,22 +1,19 @@
-﻿using System;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Trauma.Launcher.Api;
 using Trauma.Launcher.Models.Data;
 using Trauma.Launcher.Models.Logins;
 
 namespace Trauma.Launcher.ViewModels.Login;
 
-public sealed class AuthTfaViewModel : BaseLoginViewModel
+public sealed partial class AuthTfaViewModel : BaseLoginViewModel
 {
     private readonly AuthApi.AuthenticateRequest _request;
     private readonly LoginManager _loginMgr;
     private readonly AuthApi _authApi;
     private readonly DataManager _cfg;
 
-    [Reactive] public string Code { get; set; } = "";
+    [Reactive] public string _code = "";
 
-    [Reactive] public bool IsInputValid { get; private set; }
+    [Reactive] public partial bool IsInputValid { get; private set; }
 
     public AuthTfaViewModel(
         MainWindowLoginViewModel parentVm,

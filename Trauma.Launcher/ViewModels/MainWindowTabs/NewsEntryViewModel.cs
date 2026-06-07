@@ -1,8 +1,6 @@
-using System;
-
 namespace Trauma.Launcher.ViewModels.MainWindowTabs;
 
-public class NewsEntryViewModel : ViewModelBase
+public sealed class NewsEntryViewModel : ViewModelBase
 {
     public NewsEntryViewModel(string headline, Uri link)
     {

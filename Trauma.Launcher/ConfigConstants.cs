@@ -1,4 +1,3 @@
-using System;
 using Trauma.Launcher.Utility;
 
 namespace Trauma.Launcher;

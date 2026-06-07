@@ -1,13 +1,10 @@
-using System;
 using System.Linq;
-using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Trauma.Launcher.Localization;
 using Trauma.Launcher.ViewModels;
 using TerraFX.Interop.Windows;
-using IDataObject = Avalonia.Input.IDataObject;
 
 namespace Trauma.Launcher.Views;
 
@@ -86,16 +83,16 @@ public partial class MainWindow : Window
     {
         _content.DragDropOverlay.IsVisible = false;
 
-        if (!IsDragDropValid(args.Data))
+        if (!IsDragDropValid(args.DataTransfer))
             return;
 
-        var file = GetDragDropFile(args.Data)!;
+        var file = GetDragDropFile(args.DataTransfer)!;
         _viewModel!.Dropped(file);
     }
 
     private void DragOver(object? sender, DragEventArgs args)
     {
-        if (!IsDragDropValid(args.Data))
+        if (!IsDragDropValid(args.DataTransfer))
         {
             args.DragEffects = DragDropEffects.None;
             return;
@@ -111,28 +108,31 @@ public partial class MainWindow : Window
 
     private void DragEnter(object? sender, DragEventArgs args)
     {
-        if (!IsDragDropValid(args.Data))
+        if (!IsDragDropValid(args.DataTransfer))
             return;
 
         _content.DragDropOverlay.IsVisible = true;
     }
 
-    private bool IsDragDropValid(IDataObject dataObject)
+    private bool IsDragDropValid(IDataTransfer data)
     {
         if (_viewModel == null)
             return false;
 
-        if (GetDragDropFile(dataObject) is not { } fileName)
+        if (GetDragDropFile(data) is not { } file)
             return false;
 
-        return _viewModel.IsContentBundleDropValid(fileName);
+        return _viewModel.IsContentBundleDropValid(file);
     }
 
-    private static IStorageFile? GetDragDropFile(IDataObject dataObject)
+    private static IStorageFile? GetDragDropFile(IDataTransfer data)
     {
-        if (!dataObject.Contains(DataFormats.Files))
-            return null;
+        foreach (var item in data.Items)
+        {
+            if (item is IStorageFile file)
+                return file;
+        }
 
-        return dataObject.GetFiles()?.OfType<IStorageFile>().FirstOrDefault();
+        return null;
     }
 }

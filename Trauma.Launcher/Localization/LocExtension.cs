@@ -1,4 +1,3 @@
-﻿using System;
 using Splat;
 
 namespace Trauma.Launcher.Localization;

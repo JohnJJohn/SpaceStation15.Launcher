@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace Trauma.Launcher.Models.ContentManagement;
 
 // Simple model classes for the content DB.

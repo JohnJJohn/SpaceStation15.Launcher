@@ -21,7 +21,7 @@ public sealed class ServerInfo
 
 public sealed record ServerInfoLink(string Name, string? Icon, string Url);
 
-public class ServerAuthInformation
+public sealed class ServerAuthInformation
 {
     [JsonPropertyName("mode")] public AuthMode Mode { get; set; }
 
@@ -29,7 +29,7 @@ public class ServerAuthInformation
     public string PublicKey { get; set; } = default!;
 }
 
-public class ServerBuildInformation
+public sealed class ServerBuildInformation
 {
     [JsonInclude, JsonPropertyName("download_url")]
     public string? DownloadUrl = default!;
@@ -60,7 +60,7 @@ public class ServerBuildInformation
 }
 
 [JsonConverter(typeof(JsonStringEnumConverter))]
-public enum AuthMode
+public enum AuthMode : byte
 {
     Optional = 0,
     Required = 1,

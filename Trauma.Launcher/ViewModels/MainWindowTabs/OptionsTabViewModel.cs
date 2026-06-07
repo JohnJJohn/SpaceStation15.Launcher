@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Splat;
@@ -10,7 +9,7 @@ using Trauma.Launcher.Utility;
 
 namespace Trauma.Launcher.ViewModels.MainWindowTabs;
 
-public class OptionsTabViewModel : MainWindowTabViewModel
+public sealed class OptionsTabViewModel : MainWindowTabViewModel
 {
     public DataManager Cfg { get; }
     private readonly IEngineManager _engineManager;

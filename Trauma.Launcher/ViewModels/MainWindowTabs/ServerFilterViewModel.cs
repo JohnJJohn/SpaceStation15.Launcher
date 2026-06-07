@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Trauma.Launcher.Models.Data;
 using Trauma.Launcher.Utility;
 

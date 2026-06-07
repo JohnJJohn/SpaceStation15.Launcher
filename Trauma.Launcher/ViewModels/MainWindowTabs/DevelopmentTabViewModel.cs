@@ -1,4 +1,3 @@
-﻿using ReactiveUI;
 using Splat;
 using Trauma.Launcher.Localization;
 using Trauma.Launcher.Models.Data;

@@ -1,4 +1,3 @@
-using Avalonia.Controls;
 using Avalonia.Input;
 using Trauma.Launcher.ViewModels.Login;
 

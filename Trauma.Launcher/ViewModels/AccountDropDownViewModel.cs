@@ -1,10 +1,7 @@
-using System;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using DynamicData;
 using JetBrains.Annotations;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Serilog;
 using Splat;
 using Trauma.Launcher.Api;
@@ -15,7 +12,7 @@ using Trauma.Launcher.Utility;
 
 namespace Trauma.Launcher.ViewModels;
 
-public class AccountDropDownViewModel : ViewModelBase
+public sealed partial class AccountDropDownViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel _mainVm;
     private readonly DataManager _cfg;
@@ -82,7 +79,7 @@ public class AccountDropDownViewModel : ViewModelBase
 
     public bool AccountControlsVisible => _loginMgr.ActiveAccount != null;
 
-    [Reactive] public bool IsDropDownOpen { get; set; }
+    [Reactive] public bool _isDropDownOpen;
 
     public async void LogoutPressed()
     {
@@ -133,6 +130,6 @@ public sealed class AvailableAccountViewModel : ViewModelBase
                 AccountLoginStatus.Expired => $"{p.Item2} (!)",
                 _ => $"{p.Item2} (?)"
             })
-            .ToPropertyEx(this, x => x.StatusText);
+            .ToProperty(this, x => x.StatusText);
     }
 }

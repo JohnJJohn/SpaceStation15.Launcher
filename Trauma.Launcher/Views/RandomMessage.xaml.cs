@@ -1,4 +1,3 @@
-using Avalonia.Controls;
 using Splat;
 using Trauma.Launcher.Models;
 using Trauma.Launcher.Utility;

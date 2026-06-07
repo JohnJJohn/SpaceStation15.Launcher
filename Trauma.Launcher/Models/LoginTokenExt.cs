@@ -1,5 +1,3 @@
-using System;
-
 namespace Trauma.Launcher.Models;
 
 public static class LoginTokenExt

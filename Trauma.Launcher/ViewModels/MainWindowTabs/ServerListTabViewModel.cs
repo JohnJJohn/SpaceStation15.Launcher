@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Reactive.Linq;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Splat;
 using Trauma.Launcher.Localization;
 using Trauma.Launcher.Models.ServerStatus;
@@ -12,7 +8,7 @@ using Trauma.Launcher.Utility;
 
 namespace Trauma.Launcher.ViewModels.MainWindowTabs;
 
-public class ServerListTabViewModel : MainWindowTabViewModel
+public sealed partial class ServerListTabViewModel : MainWindowTabViewModel
 {
     private readonly LocalizationManager _loc = LocalizationManager.Instance;
     private readonly MainWindowViewModel _windowVm;
@@ -62,7 +58,7 @@ public class ServerListTabViewModel : MainWindowTabViewModel
         }
     }
 
-    [Reactive] public bool FiltersVisible { get; set; }
+    [Reactive] public partial bool FiltersVisible { get; set; }
 
     public ServerListFiltersViewModel Filters { get; }
 
@@ -90,8 +86,8 @@ public class ServerListTabViewModel : MainWindowTabViewModel
         _loc.LanguageSwitched += () => Filters.UpdatePresentFilters(_serverListCache.AllServers);
 
         this.WhenAnyValue(x => x.SearchString)
-            .Throttle(TimeSpan.FromMilliseconds(throttleMs), RxApp.MainThreadScheduler)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .Throttle(TimeSpan.FromMilliseconds(throttleMs), RxSchedulers.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(_ => UpdateSearchedList());
     }
 

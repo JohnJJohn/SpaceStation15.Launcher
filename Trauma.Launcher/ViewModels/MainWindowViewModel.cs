@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reactive.Linq;
@@ -9,8 +6,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalonia.Platform.Storage;
 using DynamicData;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Serilog;
 using Splat;
 using Trauma.Launcher.Api;
@@ -25,7 +20,7 @@ using Trauma.Launcher.Views;
 
 namespace Trauma.Launcher.ViewModels;
 
-public sealed class MainWindowViewModel : ViewModelBase, IErrorOverlayOwner
+public sealed partial class MainWindowViewModel : ViewModelBase, IErrorOverlayOwner
 {
     private readonly DataManager _cfg;
     private readonly LoginManager _loginMgr;
@@ -36,7 +31,7 @@ public sealed class MainWindowViewModel : ViewModelBase, IErrorOverlayOwner
     private int _selectedIndex;
 
     public DataManager Cfg => _cfg;
-    [Reactive] public bool OutOfDate { get; private set; }
+    [Reactive] public partial bool OutOfDate { get; private set; }
 
     public HomePageViewModel HomeTab { get; }
     public ServerListTabViewModel ServersTab { get; }
@@ -102,17 +97,17 @@ public sealed class MainWindowViewModel : ViewModelBase, IErrorOverlayOwner
     public IReadOnlyList<MainWindowTabViewModel> Tabs { get; }
 
     public bool LoggedIn => _loginMgr.ActiveAccount != null;
-    private string? Username => _loginMgr.ActiveAccount?.Username;
+    public string? Username => _loginMgr.ActiveAccount?.Username;
     public bool AccountDropDownVisible => _loginMgr.Logins.Count != 0;
 
     public AccountDropDownViewModel AccountDropDown { get; }
 
     public MainWindowLoginViewModel LoginViewModel { get; }
 
-    [Reactive] public ConnectingViewModel? ConnectingVM { get; set; }
+    [Reactive] public ConnectingViewModel? _connectingVM;
 
-    [Reactive] public string? BusyTask { get; private set; }
-    [Reactive] public ViewModelBase? OverlayViewModel { get; private set; }
+    [Reactive] public partial string? BusyTask { get; private set; }
+    [Reactive] public partial ViewModelBase? OverlayViewModel { get; private set; }
 
     public int SelectedIndex
     {

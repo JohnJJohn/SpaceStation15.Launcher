@@ -1,5 +1,3 @@
-using System;
-using ReactiveUI;
 using Trauma.Launcher.Models.Data;
 
 namespace Trauma.Launcher.Models.Logins;

@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Messaging;
@@ -40,16 +39,6 @@ public sealed class ServerEntryViewModel : ObservableRecipient, IRecipient<Favor
         Favorite = favorite;
     }
 
-    public ServerEntryViewModel(
-        MainWindowViewModel windowVm,
-        ServerStatusDataWithFallbackName ssdfb,
-        IServerSource serverSource,
-        DataManager cfg)
-        : this(windowVm, ssdfb.Data, serverSource, cfg)
-    {
-        FallbackName = ssdfb.FallbackName ?? "";
-    }
-
     public void Tick()
     {
         OnPropertyChanged(nameof(RoundStartTime));
@@ -74,7 +63,7 @@ public sealed class ServerEntryViewModel : ObservableRecipient, IRecipient<Favor
 
     public string Name => Favorite?.Name ?? _cacheData.Name ?? _fallbackName;
 
-    private string FavoriteButtonText => IsFavorite
+    public string FavoriteButtonText => IsFavorite
         ? _loc.GetString("server-entry-remove-favorite")
         : _loc.GetString("server-entry-add-favorite");
 

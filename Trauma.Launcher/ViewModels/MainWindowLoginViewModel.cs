@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using ReactiveUI;
 using Splat;
 using Trauma.Launcher.Api;
 using Trauma.Launcher.Models.Data;
@@ -9,7 +8,7 @@ using Trauma.Launcher.ViewModels.Login;
 
 namespace Trauma.Launcher.ViewModels;
 
-public class MainWindowLoginViewModel : ViewModelBase
+public sealed class MainWindowLoginViewModel : ViewModelBase
 {
     private readonly DataManager _cfg;
     private readonly AuthApi _authApi;

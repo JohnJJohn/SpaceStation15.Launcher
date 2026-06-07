@@ -1,12 +1,10 @@
-using ReactiveUI.Fody.Helpers;
-
 namespace Trauma.Launcher.ViewModels.Login;
 
-public abstract class BaseLoginViewModel : ViewModelBase, IErrorOverlayOwner
+public abstract partial class BaseLoginViewModel : ViewModelBase, IErrorOverlayOwner
 {
-    [Reactive] public bool Busy { get; protected set; }
-    [Reactive] public string? BusyText { get; protected set; }
-    [Reactive] public ViewModelBase? OverlayControl { get; set; }
+    [Reactive] public partial bool Busy { get; protected set; }
+    [Reactive] public partial string? BusyText { get; protected set; }
+    [Reactive] public ViewModelBase? _overlayControl;
     public MainWindowLoginViewModel ParentVM { get; }
 
     protected BaseLoginViewModel(MainWindowLoginViewModel parentVM)
@@ -16,7 +14,6 @@ public abstract class BaseLoginViewModel : ViewModelBase, IErrorOverlayOwner
 
     public virtual void Activated()
     {
-
     }
 
     public virtual void OverlayOk()

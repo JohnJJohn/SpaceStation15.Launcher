@@ -1,20 +1,10 @@
-using System;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-
 namespace Trauma.Launcher.Models.Data;
 
-public class LoginInfo : ReactiveObject
+public sealed partial class LoginInfo : ReactiveObject
 {
-    [Reactive]
-    public Guid UserId { get; set; }
-    [Reactive]
-    public string Username { get; set; } = default!;
-    [Reactive]
-    public LoginToken Token { get; set; }
+    [Reactive] public Guid _userId;
+    [Reactive] public string _username = "";
+    [Reactive] public LoginToken _token;
 
-    public override string ToString()
-    {
-        return $"{Username}/{UserId}";
-    }
+    public override string ToString() => $"{Username}/{UserId}";
 }

@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -14,7 +11,6 @@ using DynamicData;
 using JetBrains.Annotations;
 using Microsoft.Data.Sqlite;
 using Microsoft.Toolkit.Mvvm.Messaging;
-using ReactiveUI;
 using Serilog;
 using Trauma.Launcher.Utility;
 

@@ -8,16 +8,11 @@
         MinWidth="600" MinHeight="130"
         Width="600" Height="250"
         x:Class="Trauma.Launcher.Views.HubSettingsDialog"
+        x:DataType="vm:HubSettingsViewModel"
         Icon="{DynamicResource WindowIcon}"
         Title="{loc:Loc hub-settings-title}"
         Padding="4"
         WindowStartupLocation="CenterOwner">
-  <Design.DataContext>
-    <vm:HubSettingsViewModel />
-  </Design.DataContext>
-  <Window.DataContext>
-    <vm:HubSettingsViewModel />
-  </Window.DataContext>
   <Window.Styles>
     <Style Selector="TextBox.Duplicate /template/ Border#border">
       <Setter Property="BorderBrush" Value="Orange" />
@@ -123,7 +118,7 @@
                 </Button>
                 <TextBox Text="{Binding Address}"
                          PropertyChanged="HubTextChanged"
-                         Watermark="https://example.com/hub/"
+                         PlaceholderText="https://example.com/hub/"
                          IsEnabled="{Binding IsNotDefault}" />
               </DockPanel>
             </DataTemplate>

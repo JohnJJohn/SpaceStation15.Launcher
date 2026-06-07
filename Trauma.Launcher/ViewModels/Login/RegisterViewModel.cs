@@ -1,8 +1,5 @@
-using System;
 using System.Diagnostics;
 using System.Net.Mail;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Robust.Shared.AuthLib;
 using Trauma.Launcher.Api;
 using Trauma.Launcher.Models.Data;
@@ -10,22 +7,21 @@ using Trauma.Launcher.Models.Logins;
 
 namespace Trauma.Launcher.ViewModels.Login;
 
-public class RegisterViewModel : BaseLoginViewModel
+public sealed partial class RegisterViewModel : BaseLoginViewModel
 {
     private readonly DataManager _cfg;
     private readonly AuthApi _authApi;
     private readonly LoginManager _loginMgr;
 
-    [Reactive] public string EditingUsername { get; set; } = "";
-    [Reactive] public string EditingPassword { get; set; } = "";
-    [Reactive] public string EditingPasswordConfirm { get; set; } = "";
-    [Reactive] public string EditingEmail { get; set; } = "";
+    [Reactive] public partial string EditingUsername { get; set; } = "";
+    [Reactive] public partial string EditingPassword { get; set; } = "";
+    [Reactive] public partial string EditingPasswordConfirm { get; set; } = "";
+    [Reactive] public partial string EditingEmail { get; set; } = "";
 
-    [Reactive] public bool IsInputValid { get; private set; }
-    [Reactive] public string InvalidReason { get; private set; } = " ";
+    [Reactive] public partial bool IsInputValid { get; private set; }
+    [Reactive] public partial string InvalidReason { get; private set; } = " ";
 
-    [Reactive] public bool Is13OrOlder { get; set; }
-
+    [Reactive] public bool _is13OrOlder;
 
     public RegisterViewModel(MainWindowLoginViewModel parentVm, DataManager cfg, AuthApi authApi, LoginManager loginMgr)
         : base(parentVm)

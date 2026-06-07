@@ -7,11 +7,8 @@
              xmlns:loc="using:Trauma.Launcher.Localization"
              xmlns:views="using:Trauma.Launcher.Views"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Trauma.Launcher.Views.MainWindowTabs.ServerListTabView">
-  <Design.DataContext>
-    <mainWindowTabs:ServerListTabViewModel />
-  </Design.DataContext>
-
+             x:Class="Trauma.Launcher.Views.MainWindowTabs.ServerListTabView"
+             x:DataType="mainWindowTabs:ServerListTabViewModel">
   <UserControl.Styles>
     <Style Selector=":is(mainWindowTabsViews|ServerList).filtersClosed">
       <Setter Property="Grid.RowSpan" Value="3"></Setter>
@@ -27,8 +24,8 @@
       <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding FiltersVisible}" Classes="OpenRight"
                     Content="{Binding Filters.FiltersText}" />
       <TextBox DockPanel.Dock="Right" Text="{Binding SearchString, Mode=TwoWay}"
-               Watermark="{loc:Loc tab-servers-search-watermark}"
-               UseFloatingWatermark="False"
+               PlaceholderText="{loc:Loc tab-servers-search-watermark}"
+               UseFloatingPlaceholder="False"
                Margin="0 0 8 0" />
     </DockPanel>
 

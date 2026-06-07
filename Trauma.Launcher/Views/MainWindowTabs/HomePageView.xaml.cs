@@ -1,5 +1,3 @@
-using System;
-using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using Avalonia.VisualTree;
@@ -40,7 +38,7 @@ public partial class HomePageView : UserControl
         if (_viewModel?.MainWindowViewModel is not { } mainVm)
             return;
 
-        if (this.GetVisualRoot() is not Window window)
+        if (this.GetPresentationSource()?.RootVisual is not Window window)
         {
             Log.Error("Visual root isn't a window!");
             return;

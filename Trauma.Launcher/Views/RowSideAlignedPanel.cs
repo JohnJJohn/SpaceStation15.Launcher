@@ -1,7 +1,3 @@
-using System;
-using Avalonia;
-using Avalonia.Controls;
-
 namespace Trauma.Launcher.Views;
 
 public sealed class RowSideAlignedPanel : Panel

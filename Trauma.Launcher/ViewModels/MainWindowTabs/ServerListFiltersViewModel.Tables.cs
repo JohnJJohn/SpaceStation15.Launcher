@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using static Trauma.Launcher.Api.ServerApi;
 
 namespace Trauma.Launcher.ViewModels.MainWindowTabs;

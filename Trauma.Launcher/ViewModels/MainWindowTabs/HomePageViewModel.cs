@@ -1,13 +1,10 @@
-using System;
 using System.Linq;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
-using Avalonia.Controls;
 using Avalonia.VisualTree;
 using DynamicData;
 using DynamicData.Alias;
-using ReactiveUI.Fody.Helpers;
+using DynamicData.Binding;
 using Splat;
 using Trauma.Launcher.Localization;
 using Trauma.Launcher.Models.Data;
@@ -17,7 +14,7 @@ using Trauma.Launcher.Views;
 
 namespace Trauma.Launcher.ViewModels.MainWindowTabs;
 
-public class HomePageViewModel : MainWindowTabViewModel
+public sealed partial class HomePageViewModel : MainWindowTabViewModel
 {
     public MainWindowViewModel MainWindowViewModel { get; }
     private readonly DataManager _cfg;
@@ -40,15 +37,9 @@ public class HomePageViewModel : MainWindowTabViewModel
                     _statusCache.InitialUpdateStatus(a.CacheData);
                 }
             })
-            .Sort(Comparer<ServerEntryViewModel>.Create((a, b) => {
-                var dc = a.Favorite!.RaiseTime.CompareTo(b.Favorite!.RaiseTime);
-                if (dc != 0)
-                {
-                    return -dc;
-                }
-                return string.Compare(a.Name, b.Name, StringComparison.CurrentCultureIgnoreCase);
-            }))
-            .Bind(out var favorites)
+            .SortAndBind(out var favorites, SortExpressionComparer<ServerEntryViewModel>
+                .Descending(s => s.Favorite!.RaiseTime)
+                .ThenByAscending(s => s.Name.ToLowerInvariant()))
             .Subscribe(_ =>
             {
                 FavoritesEmpty = favorites.Count == 0;
@@ -60,7 +51,7 @@ public class HomePageViewModel : MainWindowTabViewModel
     public ReadOnlyObservableCollection<ServerEntryViewModel> Favorites { get; }
     public ObservableCollection<ServerEntryViewModel> Suggestions { get; } = new();
 
-    [Reactive] public bool FavoritesEmpty { get; private set; } = true;
+    [Reactive] public partial bool FavoritesEmpty { get; private set; } = true;
 
     public override string Name => LocalizationManager.Instance.GetString("tab-home-title");
     public Control? Control { get; set; }
@@ -104,7 +95,7 @@ public class HomePageViewModel : MainWindowTabViewModel
 
     private bool TryGetWindow([NotNullWhen(true)] out Window? window)
     {
-        window = Control?.GetVisualRoot() as Window;
+        window = Control?.GetPresentationSource()?.RootVisual as Window;
         return window != null;
     }
 

@@ -1,14 +1,12 @@
 // Copyright (c) The Avalonia Project. All rights reserved.
 // Licensed under the MIT license. See LICENSE-AVALONIA.txt file in the project root for full license information.
 
-using System;
-using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Trauma.Launcher.ViewModels;
 
 namespace Trauma.Launcher;
 
-public class ViewLocator : IDataTemplate
+public sealed class ViewLocator : IDataTemplate
 {
     public bool SupportsRecycling => false;
 

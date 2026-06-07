@@ -6,11 +6,9 @@
              xmlns:views="using:Trauma.Launcher.Views"
              xmlns:loc="using:Trauma.Launcher.Localization"
              mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="100"
-             x:Class="Trauma.Launcher.Views.ConnectingOverlay">
+             x:Class="Trauma.Launcher.Views.ConnectingOverlay"
+             x:DataType="vm:ConnectingViewModel">
 
-  <Design.DataContext>
-    <vm:ConnectingViewModel />
-  </Design.DataContext>
   <ContentControl Classes="OverlayBox">
     <Panel>
       <StackPanel Orientation="Vertical" IsVisible="{Binding !IsAskingPrivacyPolicy}">

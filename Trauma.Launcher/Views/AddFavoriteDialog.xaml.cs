@@ -1,7 +1,3 @@
-using System;
-using Avalonia.Controls;
-using ReactiveUI;
-
 namespace Trauma.Launcher.Views;
 
 public partial class AddFavoriteDialog : Window

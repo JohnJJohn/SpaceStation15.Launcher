@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media.Imaging;
@@ -21,7 +16,7 @@ using Trauma.Launcher.Views;
 
 namespace Trauma.Launcher;
 
-public class App : Application
+public sealed class App : Application
 {
     private static readonly Dictionary<string, AssetDef> AssetDefs = new()
     {

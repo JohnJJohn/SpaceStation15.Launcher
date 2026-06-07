@@ -1,11 +1,10 @@
-using ReactiveUI.Fody.Helpers;
 using Trauma.Launcher.Api;
 using Trauma.Launcher.Models.Data;
 using Trauma.Launcher.Models.Logins;
 
 namespace Trauma.Launcher.ViewModels.Login;
 
-public class ExpiredLoginViewModel : BaseLoginViewModel
+public sealed partial class ExpiredLoginViewModel : BaseLoginViewModel
 {
     private readonly DataManager _cfg;
     private readonly AuthApi _authApi;
@@ -25,7 +24,7 @@ public class ExpiredLoginViewModel : BaseLoginViewModel
         Account = account;
     }
 
-    [Reactive] public string EditingPassword { get; set; } = "";
+    [Reactive] public string _editingPassword = "";
     public LoggedInAccount Account { get; }
 
     public async void OnLogInButtonPressed()

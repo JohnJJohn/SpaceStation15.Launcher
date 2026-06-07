@@ -8,11 +8,8 @@
   xmlns:views="using:Trauma.Launcher.Views"
   xmlns:loc="using:Trauma.Launcher.Localization"
   mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-  x:Class="Trauma.Launcher.Views.MainWindowTabs.ServerEntryView">
-  <Design.DataContext>
-    <mainWindowTabs:ServerEntryViewModel />
-  </Design.DataContext>
-
+  x:Class="Trauma.Launcher.Views.MainWindowTabs.ServerEntryView"
+  x:DataType="mainWindowTabs:ServerEntryViewModel">
   <UserControl.Styles>
     <Style Selector="Button.FavoriteButton > views|IconLabel">
       <Setter Property="Icon" Value="{DynamicResource 'ButtonIcon-star-outline'}" />

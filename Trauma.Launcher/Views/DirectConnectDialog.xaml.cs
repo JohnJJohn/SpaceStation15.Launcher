@@ -1,9 +1,6 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reactive.Linq;
-using Avalonia.Controls;
 using Avalonia.Input;
-using ReactiveUI;
 
 namespace Trauma.Launcher.Views;
 

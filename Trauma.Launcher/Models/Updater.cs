@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
@@ -14,8 +11,6 @@ using System.Threading.Tasks;
 using Avalonia.Threading;
 using Dapper;
 using Microsoft.Data.Sqlite;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Serilog;
 using Splat;
 using Trauma.Launcher.Models.ContentManagement;
@@ -53,9 +48,9 @@ public sealed partial class Updater : ReactiveObject
     }
 
     // Note: these get updated from different threads. Observe responsibly.
-    [Reactive] public UpdateStatus Status { get; private set; }
-    [Reactive] public (long downloaded, long total, ProgressUnit unit)? Progress { get; private set; }
-    [Reactive] public long? Speed { get; private set; }
+    [Reactive] public partial UpdateStatus Status { get; private set; }
+    [Reactive] public partial (long downloaded, long total, ProgressUnit unit)? Progress { get; private set; }
+    [Reactive] public partial long? Speed { get; private set; }
 
     public Exception? UpdateException;
 

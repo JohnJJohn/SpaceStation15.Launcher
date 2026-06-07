@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -8,8 +6,6 @@ using System.Threading.Tasks;
 using Serilog;
 using Splat;
 using Trauma.Launcher.Utility;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Trauma.Launcher.Api;
 using Trauma.Launcher.Models.Data;
 using static Trauma.Launcher.Api.HubApi;
@@ -19,7 +15,7 @@ namespace Trauma.Launcher.Models.ServerStatus;
 /// <summary>
 ///     Caches the Hub's server list.
 /// </summary>
-public sealed class ServerListCache : ReactiveObject, IServerSource
+public sealed partial class ServerListCache : ReactiveObject, IServerSource
 {
     private readonly HubApi _hubApi;
     private readonly DataManager _dataManager;
@@ -30,7 +26,7 @@ public sealed class ServerListCache : ReactiveObject, IServerSource
     private readonly ServerListCollection _allServers = new();
 
     [Reactive]
-    public RefreshListStatus Status { get; private set; } = RefreshListStatus.NotUpdated;
+    public partial RefreshListStatus Status { get; private set; } = RefreshListStatus.NotUpdated;
 
     public ServerListCache()
     {
@@ -182,19 +178,7 @@ public sealed class ServerListCache : ReactiveObject, IServerSource
     }
 }
 
-public class ServerStatusDataWithFallbackName
-{
-    public readonly ServerStatusData Data;
-    public readonly string? FallbackName;
-
-    public ServerStatusDataWithFallbackName(ServerStatusData data, string? name)
-    {
-        Data = data;
-        FallbackName = name;
-    }
-}
-
-public enum RefreshListStatus
+public enum RefreshListStatus : byte
 {
     /// <summary>
     /// Hasn't started updating yet?

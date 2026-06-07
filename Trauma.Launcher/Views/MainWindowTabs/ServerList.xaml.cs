@@ -1,8 +1,4 @@
-using System;
-using Avalonia;
 using Avalonia.Controls.Primitives;
-using System.Collections.Generic;
-using Avalonia.Controls;
 using Avalonia.Metadata;
 using Serilog;
 using Trauma.Launcher.ViewModels.MainWindowTabs;

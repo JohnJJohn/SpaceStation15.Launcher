@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -10,7 +8,7 @@ using Trauma.Launcher.Utility;
 
 namespace Trauma.Launcher.ViewModels;
 
-public class HubSettingsViewModel : ViewModelBase
+public sealed class HubSettingsViewModel : ViewModelBase
 {
     public string[] DefaultHubs => ConfigConstants.DefaultHubUrls.Select(set => set.Urls[0]).ToArray();
     public ObservableCollection<HubViewModel> HubList { get; set; } = new();
@@ -85,7 +83,7 @@ public class HubSettingsViewModel : ViewModelBase
     }
 }
 
-public class HubViewModel : ViewModelBase
+public sealed class HubViewModel : ViewModelBase
 {
     public string Address { get; set; }
     private readonly HubSettingsViewModel _parentVm;

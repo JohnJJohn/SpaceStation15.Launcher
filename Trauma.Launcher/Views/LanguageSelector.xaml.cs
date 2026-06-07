@@ -1,5 +1,3 @@
-﻿using Avalonia.Controls;
-
 namespace Trauma.Launcher.Views;
 
 public sealed partial class LanguageSelector : UserControl

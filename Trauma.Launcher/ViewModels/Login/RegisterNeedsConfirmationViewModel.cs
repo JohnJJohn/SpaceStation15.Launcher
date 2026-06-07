@@ -1,7 +1,4 @@
-using System;
 using Avalonia.Threading;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using Trauma.Launcher.Api;
 using Trauma.Launcher.Localization;
 using Trauma.Launcher.Models.Data;
@@ -9,7 +6,7 @@ using Trauma.Launcher.Models.Logins;
 
 namespace Trauma.Launcher.ViewModels.Login;
 
-public class RegisterNeedsConfirmationViewModel : BaseLoginViewModel
+public sealed partial class RegisterNeedsConfirmationViewModel : BaseLoginViewModel
 {
     private const int TimeoutSeconds = 5;
 
@@ -37,7 +34,7 @@ public class RegisterNeedsConfirmationViewModel : BaseLoginViewModel
         }
     }
 
-    [Reactive] private int TimeoutSecondsLeft { get; set; }
+    [Reactive] private int _timeoutSecondsLeft;
 
     public RegisterNeedsConfirmationViewModel(
         MainWindowLoginViewModel parentVm,

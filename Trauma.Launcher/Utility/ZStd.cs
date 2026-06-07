@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Buffers;
 using System.IO;
 using System.Reflection;
@@ -170,7 +170,7 @@ public sealed unsafe class ZStdDCtx : IDisposable
 
 
 [Serializable]
-public class ZStdException : Exception
+public sealed class ZStdException : Exception
 {
     public ZStdException()
     {
@@ -185,9 +185,7 @@ public class ZStdException : Exception
     }
 
     public static unsafe ZStdException FromCode(nuint code)
-    {
-        return new ZStdException(Marshal.PtrToStringUTF8((IntPtr)ZSTD_getErrorName(code))!);
-    }
+        => new ZStdException(Marshal.PtrToStringUTF8((IntPtr)ZSTD_getErrorName(code))!);
 
     public static void ThrowIfError(nuint code)
     {

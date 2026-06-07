@@ -1,8 +1,6 @@
-using System;
 using System.Reactive.Linq;
 using System.Threading;
 using Avalonia.Platform.Storage;
-using ReactiveUI;
 using Splat;
 using Trauma.Launcher.Localization;
 using Trauma.Launcher.Models;
@@ -10,7 +8,7 @@ using Trauma.Launcher.Utility;
 
 namespace Trauma.Launcher.ViewModels;
 
-public class ConnectingViewModel : ViewModelBase
+public sealed class ConnectingViewModel : ViewModelBase
 {
     private readonly Connector _connector;
     private readonly Updater _updater;
@@ -45,7 +43,7 @@ public class ConnectingViewModel : ViewModelBase
         _reasonSuffix = (givenReason != null) ? ("\n" + givenReason) : "";
 
         this.WhenAnyValue(x => x._updater.Progress)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(progress =>
             {
                 _updaterProgress = progress;
@@ -56,7 +54,7 @@ public class ConnectingViewModel : ViewModelBase
             });
 
         this.WhenAnyValue(x => x._updater.Speed)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(speed =>
             {
                 _updaterSpeed = speed;
@@ -66,7 +64,7 @@ public class ConnectingViewModel : ViewModelBase
             });
 
         this.WhenAnyValue(x => x._updater.Status)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(status =>
             {
                 _updaterStatus = status;
@@ -74,7 +72,7 @@ public class ConnectingViewModel : ViewModelBase
             });
 
         this.WhenAnyValue(x => x._connector.Status)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(val =>
             {
                 _connectorStatus = val;
@@ -94,14 +92,14 @@ public class ConnectingViewModel : ViewModelBase
             });
 
         this.WhenAnyValue(x => x._connector.PrivacyPolicyDifferentVersion)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(_ =>
             {
                 this.RaisePropertyChanged(nameof(PrivacyPolicyText));
             });
 
         this.WhenAnyValue(x => x._connector.ClientExitedBadly)
-            .ObserveOn(RxApp.MainThreadScheduler)
+            .ObserveOn(RxSchedulers.MainThreadScheduler)
             .Subscribe(_ =>
             {
                 this.RaisePropertyChanged(nameof(StatusText));
