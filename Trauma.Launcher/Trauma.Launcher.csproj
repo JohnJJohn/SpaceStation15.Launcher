@@ -90,8 +90,8 @@
     <RobustLinkAssemblies Include="TerraFX.Interop.Windows" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="signing_key" />
-    <Content Include="signing_key">
+    <None Remove="signing_keys/*" />
+    <Content Include="signing_keys/*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="../LICENSE*.txt">

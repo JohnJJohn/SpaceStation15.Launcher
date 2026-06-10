@@ -43,6 +43,6 @@ public partial class OptionsTabView : UserControl
 
     private async void OpenHubSettings(object? sender, RoutedEventArgs args)
     {
-        await new HubSettingsDialog().ShowDialog((Window)this.GetPresentationSource()?.RootVisual!);
+        await new HubSettingsDialog().ShowDialog((Window)TopLevel.GetTopLevel(this)!);
     }
 }

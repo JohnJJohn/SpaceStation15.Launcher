@@ -38,20 +38,36 @@ public static class ConfigConstants
     public const string DownloadUrl = "https://traumastation.com/download";
     public const string NewsFeedUrl = "https://news.traumastation.com/index.xml";
 
-    private static readonly UrlFallbackSet RobustBuildsBaseUrl = new([
-        "https://engine.cdn.traumastation.com/"
-    ]);
+    private static readonly Dictionary<string, UrlFallbackSet> EngineBaseUrls = new()
+    {
+        {"RobustToolbox", new([
+            "https://robust-builds.cdn.spacestation14.com/",
+            "https://robust-builds.fallback.cdn.spacestation14.com/"
+        ])},
+        {"QuietToolbox", new([
+            "https://engine.cdn.traumastation.com/"
+        ])}
+    };
+
+    /// <summary>
+    /// ID of every engine built in to the launcher.
+    /// </summary>
+    public static IEnumerable<string> BuiltinEngines => EngineBaseUrls.Keys;
+    /// <summary>
+    /// Engine to assume is used if one is not specified.
+    /// </summary>
+    public const string DefaultEngine = "RobustToolbox";
 
     private static readonly UrlFallbackSet LauncherDataBaseUrl = new([
         "https://launcher.cdn.traumastation.com/"
     ]);
 
-    public static readonly UrlFallbackSet RobustBuildsManifest = RobustBuildsBaseUrl + "manifest.json";
-    public static readonly UrlFallbackSet RobustModulesManifest = RobustBuildsBaseUrl + "modules.json";
+    public static UrlFallbackSet EngineBuildsManifest(string id) => EngineBaseUrls[id] + "manifest.json";
+    public static UrlFallbackSet EngineModulesManifest(string id) => EngineBaseUrls[id] + "modules.json";
 
-    // How long to keep cached copies of Robust manifests.
+    // How long to keep cached copies of engine manifests.
     // TODO: Take this from Cache-Control header responses instead.
-    public static readonly TimeSpan RobustManifestCacheTime = TimeSpan.FromMinutes(15);
+    public static readonly TimeSpan EngineManifestCacheTime = TimeSpan.FromMinutes(15);
 
     public static readonly UrlFallbackSet UrlLauncherInfo = LauncherDataBaseUrl + "info.json";
     public static readonly UrlFallbackSet UrlAssetsBase = LauncherDataBaseUrl + "assets/";

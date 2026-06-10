@@ -29,7 +29,7 @@ public static class LauncherPaths
     public static readonly string PathClientMacLog = Path.Combine(DirLogs, ClientMacLogName);
     public static readonly string PathClientStdoutLog = Path.Combine(DirLogs, ClientStdoutLogName);
     public static readonly string PathClientStderrLog = Path.Combine(DirLogs, ClientStderrLogName);
-    public static readonly string PathPublicKey = Path.Combine(DirLauncherInstall, "signing_key");
+    public static readonly string PathPublicKeys = Path.Combine(DirLauncherInstall, "signing_keys");
     public static readonly string PathContentDb = Path.Combine(DirLocalData, "content.db");
     public static readonly string PathOverrideAssetsDb = Path.Combine(DirLocalData, "override_assets.db");
 

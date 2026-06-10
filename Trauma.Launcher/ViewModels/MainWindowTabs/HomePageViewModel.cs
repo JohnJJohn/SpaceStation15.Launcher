@@ -75,9 +75,7 @@ public sealed partial class HomePageViewModel : MainWindowTabViewModel
     public async void AddFavoritePressed()
     {
         if (!TryGetWindow(out var window))
-        {
             return;
-        }
 
         var (name, address) = await new AddFavoriteDialog().ShowDialog<(string name, string address)>(window);
 
@@ -95,7 +93,7 @@ public sealed partial class HomePageViewModel : MainWindowTabViewModel
 
     private bool TryGetWindow([NotNullWhen(true)] out Window? window)
     {
-        window = Control?.GetPresentationSource()?.RootVisual as Window;
+        window = TopLevel.GetTopLevel(Control) as Window;
         return window != null;
     }
 

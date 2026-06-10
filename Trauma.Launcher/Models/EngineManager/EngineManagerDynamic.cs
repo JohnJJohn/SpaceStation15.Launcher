@@ -29,9 +29,11 @@ public sealed partial class EngineManagerDynamic : IEngineManager
     {
         _cfg = Locator.Current.GetRequiredService<DataManager>();
         _http = Locator.Current.GetRequiredService<HttpClient>();
+
+        InitManifest();
     }
 
-    public string GetEnginePath(string engineVersion)
+    public string GetEnginePath(string id, string engineVersion)
     {
 #if DEVELOPMENT
         if (_cfg.GetCVar(CVars.EngineOverrideEnabled))
@@ -40,35 +42,40 @@ public sealed partial class EngineManagerDynamic : IEngineManager
         }
 #endif
 
-        if (!_cfg.EngineInstallations.Lookup(engineVersion).HasValue)
+        if (!_cfg.EngineInstallations.Lookup(new(id, engineVersion)).HasValue)
         {
             throw new ArgumentException("We do not have that engine version!");
         }
 
-        return Path.Combine(LauncherPaths.DirEngineInstallations, $"{engineVersion}.zip");
+        return Path.Combine(LauncherPaths.DirEngineInstallations, id, $"{engineVersion}.zip");
     }
 
-    public string GetEngineModule(string moduleName, string moduleVersion)
+    public string GetEngineModule(string id, string moduleName, string moduleVersion)
     {
 #if DEVELOPMENT
         if (_cfg.GetCVar(CVars.EngineOverrideEnabled))
             moduleVersion = OverrideVersionName;
 #endif
 
-        return Path.Combine(LauncherPaths.DirModuleInstallations, moduleName, moduleVersion);
+        return Path.Combine(LauncherPaths.DirModuleInstallations, id, moduleName, moduleVersion);
     }
 
-    public string GetEngineSignature(string engineVersion)
+    public string GetEngineSignature(string id, string engineVersion)
     {
 #if DEVELOPMENT
         if (_cfg.GetCVar(CVars.EngineOverrideEnabled))
             return "DEADBEEF";
 #endif
 
-        return _cfg.EngineInstallations.Lookup(engineVersion).Value.Signature;
+        var installation = _cfg.EngineInstallations.Lookup(new(id, engineVersion));
+        if (installation.HasValue)
+            return installation.Value.Signature;
+
+        throw new ArgumentException($"No engine {id}:{engineVersion} installed!");
     }
 
     public async Task<EngineInstallationResult> DownloadEngineIfNecessary(
+        string id,
         string engineVersion,
         Helpers.DownloadProgressCallback? progress = null,
         CancellationToken cancel = default)
@@ -82,8 +89,7 @@ public sealed partial class EngineManagerDynamic : IEngineManager
         }
 #endif
 
-        var foundVersion = await GetVersionInfo(engineVersion, cancel: cancel);
-        if (foundVersion == null)
+        if (await GetVersionInfo(id, engineVersion, cancel: cancel) is not { } foundVersion)
             throw new UpdateException("Unable to find engine version in manifest!");
 
         if (foundVersion.Info.Insecure)
@@ -94,13 +100,13 @@ public sealed partial class EngineManagerDynamic : IEngineManager
             engineVersion,
             foundVersion.Version);
 
-        if (_cfg.EngineInstallations.Lookup(foundVersion.Version).HasValue)
+        if (_cfg.EngineInstallations.Lookup(new(id, foundVersion.Version)).HasValue)
         {
             // Already have the engine version, we're good.
             return new EngineInstallationResult(foundVersion.Version, false);
         }
 
-        Log.Information("Installing engine version {version}...", foundVersion.Version);
+        Log.Information("Installing engine {id} version {version}...", id, foundVersion.Version);
 
         var bestRid = RidUtility.FindBestRid(foundVersion.Info.Platforms.Keys);
         if (bestRid == null)
@@ -114,9 +120,10 @@ public sealed partial class EngineManagerDynamic : IEngineManager
 
         Log.Debug("Downloading engine: {EngineDownloadUrl}", buildInfo.Url);
 
-        Helpers.EnsureDirectoryExists(LauncherPaths.DirEngineInstallations);
+        var dir = Path.Combine(LauncherPaths.DirEngineInstallations, id);
+        Helpers.EnsureDirectoryExists(dir);
 
-        var downloadTarget = Path.Combine(LauncherPaths.DirEngineInstallations, $"{foundVersion.Version}.zip");
+        var downloadTarget = Path.Combine(dir, $"{foundVersion.Version}.zip");
         await using var file = File.Create(downloadTarget, 4096, FileOptions.Asynchronous);
 
         try
@@ -132,12 +139,13 @@ public sealed partial class EngineManagerDynamic : IEngineManager
             throw;
         }
 
-        _cfg.AddEngineInstallation(new InstalledEngineVersion(foundVersion.Version, buildInfo.Signature));
+        _cfg.AddEngineInstallation(new InstalledEngineVersion(id, foundVersion.Version, buildInfo.Signature));
         _cfg.CommitConfig();
         return new EngineInstallationResult(foundVersion.Version, true);
     }
 
     public async Task<bool> DownloadModuleIfNecessary(
+        string id,
         string moduleName,
         string moduleVersion,
         EngineModuleManifest manifest,
@@ -149,7 +157,7 @@ public sealed partial class EngineManagerDynamic : IEngineManager
         {
             // For modules we have to extract them from the zip to disk first.
             // So it's a little more involved than just giving a different zip path to the launch code.
-            await CopyOverrideModule(moduleName);
+            await CopyOverrideModule(id, moduleName);
             return true;
         }
 #endif
@@ -157,7 +165,7 @@ public sealed partial class EngineManagerDynamic : IEngineManager
         // Currently the module handling code assumes all modules need straight extract to disk.
         // This works for CEF, but who knows what the future might hold?
 
-        Log.Debug("Checking to download {ModuleName} {ModuleVersion}", moduleName, moduleVersion);
+        Log.Debug("Checking to download {ModuleName} {ModuleVersion} from {id}", moduleName, moduleVersion, id);
 
         var versionData = manifest.Modules[moduleName].Versions[moduleVersion];
 
@@ -166,7 +174,7 @@ public sealed partial class EngineManagerDynamic : IEngineManager
 
         Log.Debug("Selected module {ModuleName} {ModuleVersion}", moduleName, moduleVersion);
 
-        var alreadyInstalled = _cfg.EngineModules.Any(m => m.Name == moduleName && m.Version == moduleVersion);
+        var alreadyInstalled = _cfg.EngineModules.Any(m => m.Engine == id && m.Name == moduleName && m.Version == moduleVersion);
 
         if (alreadyInstalled)
         {
@@ -187,6 +195,7 @@ public sealed partial class EngineManagerDynamic : IEngineManager
         Log.Debug("Downloading module: {EngineDownloadUrl}", platformData.Url);
 
         GetModulePaths(
+            id,
             moduleName,
             moduleVersion,
             out var moduleDiskPath,
@@ -203,7 +212,7 @@ public sealed partial class EngineManagerDynamic : IEngineManager
             // Verify signature.
             tempFile.Seek(0, SeekOrigin.Begin);
 
-            if (!VerifyModuleSignature(tempFile, platformData.Sig))
+            if (!VerifyModuleSignature(tempFile, id, platformData.Sig))
             {
 #if DEBUG
                 if (_cfg.GetCVar(CVars.DisableSigning))
@@ -228,7 +237,7 @@ public sealed partial class EngineManagerDynamic : IEngineManager
             ExtractModule(moduleName, moduleVersionDiskPath, tempFile);
         }
 
-        _cfg.AddEngineModule(new InstalledEngineModule(moduleName, moduleVersion));
+        _cfg.AddEngineModule(new InstalledEngineModule(id, moduleName, moduleVersion));
         _cfg.CommitConfig();
 
         Log.Debug("Done installing module!");
@@ -237,9 +246,10 @@ public sealed partial class EngineManagerDynamic : IEngineManager
 
     }
 
-    private async Task CopyOverrideModule(string name)
+    private async Task CopyOverrideModule(string id, string name)
     {
         GetModulePaths(
+            id,
             name,
             OverrideVersionName,
             out var modPath,
@@ -255,12 +265,13 @@ public sealed partial class EngineManagerDynamic : IEngineManager
     }
 
     private static void GetModulePaths(
+        string id,
         string module,
         string version,
         out string moduleDiskPath,
         out string moduleVersionDiskPath)
     {
-        moduleDiskPath = Path.Combine(LauncherPaths.DirModuleInstallations, module);
+        moduleDiskPath = Path.Combine(LauncherPaths.DirModuleInstallations, id, module);
         moduleVersionDiskPath = Path.Combine(moduleDiskPath, version);
     }
 
@@ -291,7 +302,7 @@ public sealed partial class EngineManagerDynamic : IEngineManager
         }
     }
 
-    private static unsafe bool VerifyModuleSignature(FileStream stream, string signature)
+    private static unsafe bool VerifyModuleSignature(FileStream stream, string id, string signature)
     {
         if (stream.Length > int.MaxValue)
             throw new InvalidOperationException("Unable to handle files larger than 2 GiB");
@@ -313,9 +324,10 @@ public sealed partial class EngineManagerDynamic : IEngineManager
         {
             var span = new ReadOnlySpan<byte>(ptr, (int)stream.Length);
 
+            var keyPath = Path.Combine(LauncherPaths.PathPublicKeys, id);
             var pubKey = PublicKey.Import(
                 SignatureAlgorithm.Ed25519,
-                File.ReadAllBytes(LauncherPaths.PathPublicKey),
+                File.ReadAllBytes(keyPath),
                 KeyBlobFormat.PkixPublicKeyText);
 
             var sigBytes = Convert.FromHexString(signature);
@@ -328,9 +340,9 @@ public sealed partial class EngineManagerDynamic : IEngineManager
         }
     }
 
-    public async Task<EngineModuleManifest> GetEngineModuleManifest(CancellationToken cancel = default)
+    public async Task<EngineModuleManifest> GetEngineModuleManifest(string id, CancellationToken cancel = default)
     {
-        return await ConfigConstants.RobustModulesManifest.GetFromJsonAsync<EngineModuleManifest>(_http, cancel) ??
+        return await ConfigConstants.EngineModulesManifest(id).GetFromJsonAsync<EngineModuleManifest>(_http, cancel) ??
                throw new InvalidDataException();
     }
 
@@ -341,32 +353,34 @@ public sealed partial class EngineManagerDynamic : IEngineManager
         // Cull main engine installations.
 
         var origModulesUsed = contenCon
-            .Query<(string, string)>("SELECT DISTINCT ModuleName, ModuleVersion FROM ContentEngineDependency")
+            .Query<(string, string, string)>("SELECT DISTINCT Engine, ModuleName, ModuleVersion FROM ContentEngineDependency")
             .ToList();
 
         // GOD DAMNIT more bodging everything together.
         // The code sucks.
         // My shitty hacks to do engine version redirection fall apart here as well.
-        var modulesUsed = new HashSet<(string, string)>();
-        foreach (var (name, version) in origModulesUsed)
+        // module name ("Robust" for engine itself) -> engine id + version
+        var modulesUsed = new HashSet<(string, EngineVersion)>();
+        foreach (var (id, name, version) in origModulesUsed)
         {
-            if (name == "Robust" && await GetVersionInfo(version) is { } redirect)
+            if (name == "Robust" && await GetVersionInfo(id, version) is { } redirect)
             {
-                modulesUsed.Add(("Robust", redirect.Version));
+                modulesUsed.Add(("Robust", new(id, redirect.Version)));
             }
             else
             {
-                modulesUsed.Add((name, version));
+                modulesUsed.Add((name, new(id, version)));
             }
         }
 
-        var toCull = _cfg.EngineInstallations.Items.Where(i => !modulesUsed.Contains(("Robust", i.Version))).ToArray();
+        var toCull = _cfg.EngineInstallations.Items.Where(i => !modulesUsed.Contains(("Robust", new(i.Engine, i.Version)))).ToArray();
 
         foreach (var installation in toCull)
         {
-            Log.Debug("Culling unused version {engineVersion}", installation.Version);
+            var id = installation.Engine;
+            Log.Debug("Culling unused {id} version {engineVersion}", id, installation.Version);
 
-            var path = GetEnginePath(installation.Version);
+            var path = GetEnginePath(id, installation.Version);
 
             _cfg.RemoveEngineInstallation(installation);
 
@@ -374,13 +388,13 @@ public sealed partial class EngineManagerDynamic : IEngineManager
         }
 
         // Cull modules
-        var toCullModules = _cfg.EngineModules.Where(m => !modulesUsed.Contains((m.Name, m.Version))).ToArray();
+        var toCullModules = _cfg.EngineModules.Where(m => !modulesUsed.Contains((m.Name, new(m.Engine, m.Version)))).ToArray();
 
         foreach (var module in toCullModules)
         {
             Log.Debug("Culling unused module {EngineModule}", module);
 
-            var path = GetEngineModule(module.Name, module.Version);
+            var path = GetEngineModule(module.Engine, module.Name, module.Version);
 
             _cfg.RemoveEngineModule(module);
 

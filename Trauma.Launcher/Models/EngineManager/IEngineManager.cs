@@ -12,18 +12,20 @@ namespace Trauma.Launcher.Models.EngineManager;
 /// </summary>
 public interface IEngineManager
 {
-    string GetEnginePath(string engineVersion);
-    string GetEngineSignature(string engineVersion);
+    string GetEnginePath(string id, string engineVersion);
+    string GetEngineSignature(string id, string engineVersion);
 
-    Task<EngineModuleManifest> GetEngineModuleManifest(CancellationToken cancel = default);
+    Task<EngineModuleManifest> GetEngineModuleManifest(string id, CancellationToken cancel = default);
 
     Task<EngineInstallationResult> DownloadEngineIfNecessary(
+        string id,
         string engineVersion,
         Helpers.DownloadProgressCallback? progress = null,
         CancellationToken cancel = default);
 
     /// <returns>True if something new had to be installed.</returns>
     Task<bool> DownloadModuleIfNecessary(
+        string id,
         string moduleName,
         string engineVersion,
         EngineModuleManifest manifest,
@@ -32,7 +34,7 @@ public interface IEngineManager
 
     Task DoEngineCullMaybeAsync(SqliteConnection contenCon);
     void ClearAllEngines();
-    string GetEngineModule(string moduleName, string moduleVersion);
+    string GetEngineModule(string id, string moduleName, string moduleVersion);
 
     static string ResolveEngineModuleVersion(EngineModuleManifest manifest, string moduleName, string engineVersion)
     {

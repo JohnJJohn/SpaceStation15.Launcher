@@ -342,6 +342,7 @@ public sealed partial class Connector : ReactiveObject
         {
             var account = _loginManager.ActiveAccount;
 
+            // TODO: pubkey auth mode
             cVars.Add(("ROBUST_AUTH_TOKEN", account.LoginInfo.Token.Token));
             cVars.Add(("ROBUST_AUTH_USERID", account.LoginInfo.UserId.ToString()));
             cVars.Add(("ROBUST_AUTH_PUBKEY", info.AuthInformation.PublicKey));
@@ -411,7 +412,8 @@ public sealed partial class Connector : ReactiveObject
             }
 
             // Launch client.
-            return await LaunchClient(launchInfo, args, cVars);
+            var engine = serverBuildInformation?.Engine ?? ConfigConstants.DefaultEngine;
+            return await LaunchClient(engine, launchInfo, args, cVars);
         }
         catch (Exception e)
         {
@@ -520,14 +522,15 @@ public sealed partial class Connector : ReactiveObject
     }
 
     private async Task<Process?> LaunchClient(
+        string engineId,
         ContentLaunchInfo launchInfo,
         IEnumerable<string> extraArgs,
         List<(string, string)> env)
     {
-        var pubKey = LauncherPaths.PathPublicKey;
+        var pubKey = Path.Join(LauncherPaths.PathPublicKeys, engineId);
         var engineVersion = launchInfo.ModuleInfo.Single(x => x.Module == "Robust").Version;
-        var binPath = _engineManager.GetEnginePath(engineVersion);
-        var sig = _engineManager.GetEngineSignature(engineVersion);
+        var binPath = _engineManager.GetEnginePath(engineId, engineVersion);
+        var sig = _engineManager.GetEngineSignature(engineId, engineVersion);
 
         var startInfo = await GetLoaderStartInfo();
 
@@ -551,7 +554,7 @@ public sealed partial class Connector : ReactiveObject
                 if (moduleName == "Robust")
                     continue;
 
-                var modulePath = _engineManager.GetEngineModule(moduleName, moduleVersion);
+                var modulePath = _engineManager.GetEngineModule(engineId, moduleName, moduleVersion);
 
                 var envVar = $"ROBUST_MODULE_{moduleName.ToUpperInvariant().Replace('.', '_')}";
                 EnvVar(envVar, modulePath);
@@ -836,6 +839,8 @@ public sealed partial class Connector : ReactiveObject
 public sealed record ContentBundleMetadata(
     [property: JsonPropertyName("server_gc")]
     bool? ServerGC,
+    [property: JsonPropertyName("engine")]
+    string? Engine,
     [property: JsonPropertyName("engine_version")]
     string EngineVersion,
     [property: JsonPropertyName("base_build")]
@@ -852,6 +857,7 @@ public sealed record ContentBundleMetadata(
             DownloadUrl = BaseBuild.DownloadUrl,
             ManifestUrl = BaseBuild.ManifestUrl,
             ManifestDownloadUrl = BaseBuild.ManifestDownloadUrl,
+            Engine = Engine ?? ConfigConstants.DefaultEngine,
             EngineVersion = EngineVersion,
             Version = BaseBuild.Version,
             ForkId = BaseBuild.ForkId,

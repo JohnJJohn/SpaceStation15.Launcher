@@ -1,3 +1,3 @@
-﻿namespace Trauma.Launcher.Models.Data;
+namespace Trauma.Launcher.Models.Data;
 
-public sealed record InstalledEngineModule(string Name, string Version);
+public record struct InstalledEngineModule(string Engine, string Name, string Version);

@@ -40,6 +40,9 @@ public sealed class ServerBuildInformation
     [JsonInclude, JsonPropertyName("manifest_download_url")]
     public string? ManifestDownloadUrl;
 
+    [JsonInclude, JsonPropertyName("engine")]
+    public string Engine = ConfigConstants.DefaultEngine;
+
     [JsonInclude, JsonPropertyName("engine_version")]
     public string EngineVersion = default!;
 

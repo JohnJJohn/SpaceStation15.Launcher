@@ -115,7 +115,7 @@ public sealed partial class Updater : ReactiveObject
         // Both content downloading and engine downloading MAY need the manifest.
         // So use a Lazy<Task<T>> to avoid loading it twice.
         var moduleManifest =
-            new Lazy<Task<EngineModuleManifest>>(() => _engineManager.GetEngineModuleManifest(cancel));
+            new Lazy<Task<EngineModuleManifest>>(() => _engineManager.GetEngineModuleManifest(buildInfo.Engine, cancel));
 
         // ReSharper disable once UseAwaitUsing
         using var con = ContentManager.GetSqliteConnection();
@@ -127,7 +127,7 @@ public sealed partial class Updater : ReactiveObject
 
         await Task.Run(() => { CullOldContentVersions(con); }, CancellationToken.None);
 
-        return await InstallEnginesForVersion(con, moduleManifest, versionRowId, cancel);
+        return await InstallEnginesForVersion(con, buildInfo.Engine, moduleManifest, versionRowId, cancel);
     }
 
     private async Task<ContentLaunchInfo> InstallContentBundle(
@@ -143,8 +143,9 @@ public sealed partial class Updater : ReactiveObject
 
         // Both content downloading and engine downloading MAY need the manifest.
         // So use a Lazy<Task<T>> to avoid loading it twice.
+        var engine = metadata.Engine ?? ConfigConstants.DefaultEngine;
         var moduleManifest = new Lazy<Task<EngineModuleManifest>>(
-            () => _engineManager.GetEngineModuleManifest(cancel)
+            () => _engineManager.GetEngineModuleManifest(engine, cancel)
         );
 
         var versionId = await Task.Run(async () =>
@@ -228,7 +229,7 @@ public sealed partial class Updater : ReactiveObject
                 Log.Debug("Resolving content dependencies...");
 
                 // TODO: This could copy from base build modules in certain cases.
-                await ResolveContentDependencies(con, versionId, metadata.EngineVersion, moduleManifest);
+                await ResolveContentDependencies(con, engine, versionId, metadata.EngineVersion, moduleManifest);
             }
             else
             {
@@ -249,11 +250,12 @@ public sealed partial class Updater : ReactiveObject
             return versionId;
         }, CancellationToken.None);
 
-        return await InstallEnginesForVersion(con, moduleManifest, versionId, cancel);
+        return await InstallEnginesForVersion(con, engine, moduleManifest, versionId, cancel);
     }
 
     private async Task<ContentLaunchInfo> InstallEnginesForVersion(
         SqliteConnection con,
+        string id,
         Lazy<Task<EngineModuleManifest>> moduleManifest,
         long versionRowId,
         CancellationToken cancel)
@@ -263,8 +265,8 @@ public sealed partial class Updater : ReactiveObject
         {
             Status = UpdateStatus.CheckingClientUpdate;
             modules = con.Query<(string, string)>(
-                "SELECT ModuleName, moduleVersion FROM ContentEngineDependency WHERE VersionId = @Version",
-                new { Version = versionRowId }).ToArray();
+                "SELECT ModuleName, moduleVersion FROM ContentEngineDependency WHERE Engine = @Engine AND VersionId = @Version",
+                new { Engine = id, Version = versionRowId }).ToArray();
 
             for (var index = 0; index < modules.Length; index++)
             {
@@ -272,7 +274,7 @@ public sealed partial class Updater : ReactiveObject
                 if (name == "Robust")
                 {
                     // Engine version may change here due to manifest version redirects.
-                    var newEngineVersion = await InstallEngineVersionIfMissing(version, cancel);
+                    var newEngineVersion = await InstallEngineVersionIfMissing(id, version, cancel);
                     modules[index] = (name, newEngineVersion);
                 }
                 else
@@ -281,6 +283,7 @@ public sealed partial class Updater : ReactiveObject
 
                     var manifest = await moduleManifest.Value;
                     await _engineManager.DownloadModuleIfNecessary(
+                        id,
                         name,
                         version,
                         manifest,
@@ -406,9 +409,9 @@ public sealed partial class Updater : ReactiveObject
                 "WHERE Hash = @Hash " +
                 "ORDER BY ForkVersion = @ForkVersion " +
                 "AND ForkId = @ForkId " +
-                "AND (SELECT ModuleVersion FROM ContentEngineDependency ced WHERE ced.VersionId = cv.Id AND ModuleName = 'Robust') = @EngineVersion " +
+                "AND (SELECT ModuleVersion FROM ContentEngineDependency ced WHERE ced.Engine = @Engine AND ced.VersionId = cv.Id AND ModuleName = 'Robust') = @EngineVersion " +
                 "DESC",
-                new { Hash = hash, ForkVersion = buildInfo.Version, buildInfo.ForkId, buildInfo.EngineVersion });
+                new { Hash = hash, ForkVersion = buildInfo.Version, buildInfo.ForkId, buildInfo.Engine, buildInfo.EngineVersion });
         }
         else if (buildInfo.Hash is { } hashHex)
         {
@@ -419,9 +422,9 @@ public sealed partial class Updater : ReactiveObject
                 "SELECT * FROM ContentVersion cv WHERE ZipHash = @ZipHash " +
                 "ORDER BY ForkVersion = @ForkVersion " +
                 "AND ForkId = @ForkId " +
-                "AND (SELECT ModuleVersion FROM ContentEngineDependency ced WHERE ced.VersionId = cv.Id AND ModuleName = 'Robust') = @EngineVersion " +
+                "AND (SELECT ModuleVersion FROM ContentEngineDependency ced WHERE ced.Engine = @Engine AND ced.VersionId = cv.Id AND ModuleName = 'Robust') = @EngineVersion " +
                 "DESC",
-                new { ZipHash = hash, ForkVersion = buildInfo.Version, buildInfo.ForkId, buildInfo.EngineVersion });
+                new { ZipHash = hash, ForkVersion = buildInfo.Version, buildInfo.ForkId, buildInfo.Engine, buildInfo.EngineVersion });
         }
         else
         {
@@ -431,9 +434,9 @@ public sealed partial class Updater : ReactiveObject
 
             found = con.QueryFirstOrDefault<ContentVersion>(
                 "SELECT * FROM ContentVersion cv WHERE ForkId = @ForkId AND ForkVersion = @Version " +
-                "ORDER BY (SELECT ModuleVersion FROM ContentEngineDependency ced WHERE ced.VersionId = cv.Id AND ModuleName = 'Robust') = @EngineVersion " +
+                "ORDER BY (SELECT ModuleVersion FROM ContentEngineDependency ced WHERE ced.Engine = @Engine AND ced.VersionId = cv.Id AND ModuleName = 'Robust') = @EngineVersion " +
                 "DESC",
-                new { buildInfo.ForkId, buildInfo.Version, buildInfo.EngineVersion });
+                new { buildInfo.ForkId, buildInfo.Version, buildInfo.Engine, buildInfo.EngineVersion });
         }
 
 
@@ -561,10 +564,11 @@ public sealed partial class Updater : ReactiveObject
         // This can happen if the server, for some reason,
         // reports a different ForkID/version/engine version for a zip file we already have.
 
+        var engine = buildInfo.Engine;
         var curEngineVersion =
             con.ExecuteScalar<string>(
-                "SELECT ModuleVersion FROM ContentEngineDependency WHERE ModuleName = 'Robust' AND VersionId = @Version",
-                new { Version = existingVersion.Id });
+                "SELECT ModuleVersion FROM ContentEngineDependency WHERE Engine = @Engine AND ModuleName = 'Robust' AND VersionId = @Version",
+                new { Engine = engine, Version = existingVersion.Id });
 
         var changedFork = buildInfo.ForkId != existingVersion.ForkId ||
                           buildInfo.Version != existingVersion.ForkVersion;
@@ -600,10 +604,11 @@ public sealed partial class Updater : ReactiveObject
             if (changedEngineVersion)
             {
                 con.Execute(@"
-                        INSERT INTO ContentEngineDependency (VersionId, ModuleName, ModuleVersion)
-                        VALUES (@VersionId, 'Robust', @EngineVersion)",
+                        INSERT INTO ContentEngineDependency (Engine, VersionId, ModuleName, ModuleVersion)
+                        VALUES (@Engine, @VersionId, 'Robust', @EngineVersion)",
                     new
                     {
+                        Engine = engine,
                         EngineVersion = engineVersion,
                         VersionId = versionId
                     });
@@ -612,9 +617,10 @@ public sealed partial class Updater : ReactiveObject
                 var oldDependencies = con.Query<string>(@"
                         SELECT ModuleName
                         FROM ContentEngineDependency
-                        WHERE VersionId = @OldVersion AND ModuleName != 'Robust'", new
+                        WHERE VersionId = @OldVersion AND Engine = @Engine AND ModuleName != 'Robust'", new
                 {
-                    OldVersion = existingVersion.Id
+                    OldVersion = existingVersion.Id,
+                    Engine = engine
                 }).ToArray();
 
                 if (oldDependencies.Length > 0)
@@ -626,11 +632,12 @@ public sealed partial class Updater : ReactiveObject
                         var version = IEngineManager.ResolveEngineModuleVersion(manifest, module, engineVersion);
 
                         con.Execute(@"
-                                INSERT INTO ContentEngineDependency(VersionId, ModuleName, ModuleVersion)
-                                VALUES (@Version, @ModName, @EngineVersion)",
+                                INSERT INTO ContentEngineDependency(VersionId, Engine, ModuleName, ModuleVersion)
+                                VALUES (@Version, @Engine, @ModName, @EngineVersion)",
                             new
                             {
                                 Version = versionId,
+                                Engine = engine,
                                 ModName = module,
                                 ModVersion = version
                             });
@@ -641,8 +648,8 @@ public sealed partial class Updater : ReactiveObject
             {
                 // Copy module dependencies.
                 con.Execute(@"
-                    INSERT INTO ContentEngineDependency (VersionId, ModuleName, ModuleVersion)
-                    SELECT @NewVersion, ModuleName, ModuleVersion
+                    INSERT INTO ContentEngineDependency (VersionId, Engine, ModuleName, ModuleVersion)
+                    SELECT @NewVersion, Engine, ModuleName, ModuleVersion
                     FROM ContentEngineDependency
                     WHERE VersionId = @OldVersion",
                     new
@@ -720,34 +727,34 @@ public sealed partial class Updater : ReactiveObject
 
         // Insert engine dependencies.
 
-        await ResolveContentDependencies(con, versionId, engineVersion, moduleManifest);
+        await ResolveContentDependencies(con, buildInfo.Engine, versionId, engineVersion, moduleManifest);
 
         return versionId;
     }
 
     private static async Task ResolveContentDependencies(
         SqliteConnection con,
+        string engine,
         long versionId,
         string engineVersion,
         Lazy<Task<EngineModuleManifest>> moduleManifest)
     {
         // Engine version.
         con.Execute(
-            @"INSERT INTO ContentEngineDependency(VersionId, ModuleName, ModuleVersion)
-                VALUES (@Version, 'Robust', @EngineVersion)",
+            @"INSERT INTO ContentEngineDependency(Engine, VersionId, ModuleName, ModuleVersion)
+                VALUES (@Engine, @Version, 'Robust', @EngineVersion)",
             new
             {
-                Version = versionId, EngineVersion = engineVersion
+                Engine = engine, Version = versionId, EngineVersion = engineVersion
             });
 
-        Log.Debug("Inserting dependency: {ModuleName} {ModuleVersion}", "Robust", engineVersion);
+        Log.Debug("Inserting dependency: {Engine} {ModuleName} {ModuleVersion}", engine, "Robust", engineVersion);
 
         // If we have a manifest file, load module dependencies from manifest file.
         if (LoadManifestData(con, versionId) is not { } manifestData)
             return;
 
         var modules = manifestData.Modules;
-
         if (modules.Length <= 0)
             return;
 
@@ -758,16 +765,17 @@ public sealed partial class Updater : ReactiveObject
             var version = IEngineManager.ResolveEngineModuleVersion(manifest, module, engineVersion);
 
             con.Execute(
-                @"INSERT INTO ContentEngineDependency(VersionId, ModuleName, ModuleVersion)
-                        VALUES (@Version, @ModName, @ModVersion)",
+                @"INSERT INTO ContentEngineDependency(Engine, VersionId, ModuleName, ModuleVersion)
+                        VALUES (@Engine, @Version, @ModName, @ModVersion)",
                 new
                 {
+                    Engine = engine,
                     Version = versionId,
                     ModName = module,
                     ModVersion = version
                 });
 
-            Log.Debug("Inserting dependency: {ModuleName} {ModuleVersion}", module, version);
+            Log.Debug("Inserting dependency: {Engine} {ModuleName} {ModuleVersion}", engine, module, version);
         }
     }
 
@@ -824,10 +832,10 @@ public sealed partial class Updater : ReactiveObject
         await _engineManager.DoEngineCullMaybeAsync(contentConnection);
     }
 
-    private async Task<string> InstallEngineVersionIfMissing(string engineVer, CancellationToken cancel)
+    private async Task<string> InstallEngineVersionIfMissing(string id, string engineVer, CancellationToken cancel)
     {
         Status = UpdateStatus.DownloadingEngineVersion;
-        var (changedVersion, _) = await _engineManager.DownloadEngineIfNecessary(engineVer, DownloadProgressCallback, cancel);
+        var (changedVersion, _) = await _engineManager.DownloadEngineIfNecessary(id, engineVer, DownloadProgressCallback, cancel);
 
         Progress = null;
         return changedVersion;

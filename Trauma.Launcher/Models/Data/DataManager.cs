@@ -42,7 +42,7 @@ public sealed class DataManager : ReactiveObject
     private readonly SourceCache<LoginInfo, Guid> _logins = new(l => l.UserId);
 
     // When using dynamic engine management, this is used to keep track of installed engine versions.
-    private readonly SourceCache<InstalledEngineVersion, string> _engineInstallations = new(v => v.Version);
+    private readonly SourceCache<InstalledEngineVersion, EngineVersion> _engineInstallations = new(v => new(v.Engine, v.Version));
 
     private readonly HashSet<ServerFilter> _filters = new();
     private readonly List<Hub> _hubs = new();
@@ -124,7 +124,7 @@ public sealed class DataManager : ReactiveObject
 
     public IObservableCache<FavoriteServer, string> FavoriteServers => _favoriteServers;
     public IObservableCache<LoginInfo, Guid> Logins => _logins;
-    public IObservableCache<InstalledEngineVersion, string> EngineInstallations => _engineInstallations;
+    public IObservableCache<InstalledEngineVersion, EngineVersion> EngineInstallations => _engineInstallations;
     public IEnumerable<InstalledEngineModule> EngineModules => _modules;
     public ICollection<ServerFilter> Filters { get; }
     public ICollection<Hub> Hubs { get; }
@@ -304,7 +304,7 @@ public sealed class DataManager : ReactiveObject
 
         // Engine installations
         _engineInstallations.AddOrUpdate(
-            sqliteConnection.Query<InstalledEngineVersion>("SELECT Version,Signature FROM EngineInstallation"));
+            sqliteConnection.Query<InstalledEngineVersion>("SELECT Engine,Version,Signature FROM EngineInstallation"));
 
         // Engine modules
         _modules.AddRange(sqliteConnection.Query<InstalledEngineModule>("SELECT Name, Version FROM EngineModule"));
@@ -470,10 +470,10 @@ public sealed class DataManager : ReactiveObject
     {
         AddDbCommand(con => con.Execute(reason switch
             {
-                ChangeReason.Add => "INSERT INTO EngineInstallation VALUES (@Version, @Signature)",
+                ChangeReason.Add => "INSERT INTO EngineInstallation VALUES (@Engine, @Version, @Signature)",
                 ChangeReason.Update =>
-                    "UPDATE EngineInstallation SET Signature = @Signature WHERE Version = @Version",
-                ChangeReason.Remove => "DELETE FROM EngineInstallation WHERE Version = @Version",
+                    "UPDATE EngineInstallation SET Signature = @Signature WHERE Engine = @Engine AND Version = @Version",
+                ChangeReason.Remove => "DELETE FROM EngineInstallation WHERE Engine = @Engine AND Version = @Version",
                 _ => throw new ArgumentOutOfRangeException(nameof(reason), reason, null)
             },
             // Already immutable.

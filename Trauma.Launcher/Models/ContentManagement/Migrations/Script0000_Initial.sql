@@ -67,6 +67,8 @@ CREATE TABLE ContentEngineDependency(
     Id INTEGER PRIMARY KEY,
     -- Reference to ContentVersion to see which server version this belongs to.
     VersionId INTEGER NOT NULL REFERENCES ContentVersion(Id) ON DELETE CASCADE,
+    -- The engine identifier, RobustToolbox for most servers
+    Engine TEXT NOT NULL,
     -- The name of the module. 'Robust' means this module is actually the base server version.
     ModuleName TEXT NOT NULL,
     -- The version of the module.
