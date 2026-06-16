@@ -141,9 +141,12 @@ public sealed partial class Updater : ReactiveObject
 
         Status = UpdateStatus.LoadingContentBundle;
 
+        var engine = metadata.Engine ?? ConfigConstants.DefaultEngine;
+        if (!_cfg.IsEngineKnown(engine))
+            throw new InvalidOperationException($"Content bundle wants to use unknown engine {engine}!\nIf you trust the server, find out where to add it.");
+
         // Both content downloading and engine downloading MAY need the manifest.
         // So use a Lazy<Task<T>> to avoid loading it twice.
-        var engine = metadata.Engine ?? ConfigConstants.DefaultEngine;
         var moduleManifest = new Lazy<Task<EngineModuleManifest>>(
             () => _engineManager.GetEngineModuleManifest(engine, cancel)
         );

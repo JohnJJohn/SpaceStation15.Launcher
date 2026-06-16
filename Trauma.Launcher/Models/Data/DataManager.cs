@@ -152,6 +152,13 @@ public sealed class DataManager : ReactiveObject
     public bool HasCustomHubs => Hubs.Count > 0;
 
     /// <summary>
+    /// Returns true if an engine name is either built in to the launcher or added by the user.
+    /// </summary>
+    public bool IsEngineKnown(string name)
+        => ConfigConstants.BuiltinEngines.Contains(name);
+        // TODO: thing to add custom engines in an idiotproof way
+
+    /// <summary>
     /// Find an auth server that has a given name, checking user servers then built in.
     /// </summary>
     public AuthServer? GetAuthServer(string name)

@@ -90,7 +90,7 @@ public sealed partial class EngineManagerDynamic : IEngineManager
 #endif
 
         if (await GetVersionInfo(id, engineVersion, cancel: cancel) is not { } foundVersion)
-            throw new UpdateException("Unable to find engine version in manifest!");
+            throw new UpdateException($"Unable to find engine version {id}:{engineVersion} in manifest!\nIf you trust the server owner with running unsandboxed code on your computer, contact them and find out how to add their engine '{id}'.");
 
         if (foundVersion.Info.Insecure)
             throw new UpdateException("Specified engine version is insecure!");

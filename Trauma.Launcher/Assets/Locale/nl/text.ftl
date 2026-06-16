@@ -103,7 +103,7 @@ connecting-status-update-error =
     - Probeer met een andere server te connecteren om te zien of het probleem blijft gebeuren.
     - Probeer software zoals VPNs aan of uit te zetten, als je er hebt.
 
-    Als je nog steeds problemen hebt, probeer eerst contact op te nemen met de server waarmee je wil connecteren, voordat je voor hulp vraagt op de Officiële Trauma Station Discord of Forums.
+    Als je nog steeds problemen hebt, probeer eerst contact op te nemen met de server waarmee je wil connecteren, voordat je voor hulp vraagt op de Officiële Trauma Station Discord.
 
     Technische fout: { $err }
 # Strings for the "forgot password" view on login

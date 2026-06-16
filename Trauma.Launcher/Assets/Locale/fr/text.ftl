@@ -179,7 +179,7 @@ connecting-status-update-error =
     - Essayez de vous connecter à un autre serveur pour vérifier si le problème persiste.
     - Essayez de désactivez votre VPN si vous en avez un.
 
-    Si le problème persiste, contactez d'abord le serveur sur lequel vous essayez de vous connecter avant de demander de l'aide sur le serveur Discord Officiel de Trauma Station ou leurs Forums.
+    Si le problème persiste, contactez d'abord le serveur sur lequel vous essayez de vous connecter avant de demander de l'aide sur le serveur Discord Officiel de Trauma Station.
 
     Error : { $err }
 # Strings for the "connecting" menu that appears when connecting to a server.
