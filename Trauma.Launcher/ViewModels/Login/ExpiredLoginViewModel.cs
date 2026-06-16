@@ -58,4 +58,12 @@ public sealed partial class ExpiredLoginViewModel : BaseLoginViewModel
 
         ParentVM.SwitchToLogin();
     }
+
+    public void SwitchToForgotPassword()
+    {
+        if (_cfg.GetAuthServer(Account.AuthServer) is not { } server)
+            return; // how did you manage to get here
+
+        ParentVM.SwitchToForgotPassword(server);
+    }
 }

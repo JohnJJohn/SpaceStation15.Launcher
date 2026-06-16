@@ -106,6 +106,11 @@ public sealed partial class LoginViewModel : BaseLoginViewModel
         Helpers.OpenUri(_server.RegisterUrl);
     }
 
+    public void SwitchToForgotPassword()
+    {
+        ParentVM.SwitchToForgotPassword(_server);
+    }
+
     public void ResendConfirmationPressed()
     {
         // Registration is purely via website now, sorry.
