@@ -5,7 +5,7 @@ namespace Trauma.Launcher;
 
 public static class ConfigConstants
 {
-    public const string CurrentLauncherVersion = "trauma-0.3";
+    public const string CurrentLauncherVersion = "trauma-0.4";
     public static readonly bool DoVersionCheck = true;
 
     // Refresh login tokens if they're within <this much> of expiry.
@@ -37,7 +37,7 @@ public static class ConfigConstants
     ];
     public const string DiscordUrl = "https://discord.traumastation.com/";
     public const string WebsiteUrl = "https://wiki.traumastation.com";
-    public const string DownloadUrl = "https://traumastation.com/download";
+    public const string DownloadUrl = "https://github.com/Trauma-Station/Trauma.Launcher/releases";
     public const string NewsFeedUrl = "https://news.traumastation.com/index.xml";
 
     private static readonly Dictionary<string, UrlFallbackSet> EngineBaseUrls = new()
