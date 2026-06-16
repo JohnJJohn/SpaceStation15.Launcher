@@ -532,8 +532,8 @@ public sealed class DataManager : ReactiveObject
                 {
                     ChangeReason.Add => "INSERT INTO Login VALUES (@AuthServer, @UserId, @UserName, @Token, @Expires)",
                     ChangeReason.Update =>
-                        "UPDATE Login SET AuthServer = @AuthServer, UserName = @UserName, Token = @Token, Expires = @Expires WHERE UserId = @UserId",
-                    ChangeReason.Remove => "DELETE FROM Login WHERE UserId = @UserId",
+                        "UPDATE Login SET UserName = @UserName, Token = @Token, Expires = @Expires WHERE AuthServer = @AuthServer AND UserId = @UserId",
+                    ChangeReason.Remove => "DELETE FROM Login WHERE AuthServer = @AuthServer AND UserId = @UserId",
                     _ => throw new ArgumentOutOfRangeException(nameof(reason), reason, null)
                 },
                 data
