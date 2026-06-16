@@ -191,7 +191,7 @@ login-login-busy-logging-in = Conectando…
 # Strings for the "login" view on login
 login-login-error-title = Falha ao conectar
 # Strings for the general main window layout of the launcher
-main-window-title = Trauma Station Launcher
+main-window-title = Space Station 15 Launcher
 # Strings for the general main window layout of the launcher
 main-window-header-link-discord = Discord
 # Strings for the general main window layout of the launcher

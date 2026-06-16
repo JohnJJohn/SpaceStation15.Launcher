@@ -35,7 +35,7 @@ connecting-status-update-error =
     - Triail ceangal le freastalaí cluiche eile le feiceáil má leanann an fhadhb ar aghaidh.
     - Triail díchumasú nó cumasú bogearraí mar VPNí, má tá aon cheann mar sin agat.
 
-    Má tá fadhbanna agat fós, ar dtús triail déanamh teagmháil leis an bhfreastalaí atá tú ag iarraidh a dul ann sula n-iarrann tú tacaíocht ar an Discord nó Fóraim Trauma Station Oifigúil.
+    Má tá fadhbanna agat fós, ar dtús triail déanamh teagmháil leis an bhfreastalaí atá tú ag iarraidh a dul ann sula n-iarrann tú tacaíocht ar an Discord nó Fóraim Space Station 15 Oifigúil.
 
     Earráid Theicniúil: { $err }
 account-drop-down-log-out-of = Logáil as { $name }
@@ -114,7 +114,7 @@ login-confirmation-confirmation-message = Seiceáil do ríomhphost chun do chunt
 login-confirmation-button-confirm = Tá mo chuntas agam dearbhaithe
 login-confirmation-button-cancel = Cealaigh
 login-confirmation-busy = Ag logáil isteach…
-main-window-title = Lainseálaí Trauma Station
+main-window-title = Lainseálaí Space Station 15
 main-window-header-link-discord = Discord
 main-window-header-link-website = Suíomh gréasáin
 main-window-out-of-date = Lainseálaí as dáta

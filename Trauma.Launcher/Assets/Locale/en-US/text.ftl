@@ -28,7 +28,7 @@ connecting-status-update-error =
     - Try connecting to another game server to see if the problem persists.
     - Try disabling or enabling software such as VPNs, if you have any.
 
-    If you are still having issues, first try contacting the server you are attempting to join before asking for support on the Official Trauma Station Discord.
+    If you are still having issues, first try contacting the server you are attempting to join before asking for support on the Official Space Station 15 Discord.
 
     Technical error: { $err }
 connecting-status-update-error-no-engine-for-platform = This game is using an older version that does not support your current platform. Please try another server or try again later.
@@ -154,7 +154,7 @@ login-confirmation-busy = Logging in…
 
 ## Strings for the general main window layout of the launcher
 
-main-window-title = Trauma Station Launcher
+main-window-title = Space Station 15 Launcher
 main-window-header-link-discord = Discord
 main-window-header-link-website = Website
 main-window-out-of-date = Launcher out of date

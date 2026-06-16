@@ -192,7 +192,7 @@ login-confirmation-button-cancel = Tühista
 # Strings for the "register confirmation" view on login
 login-confirmation-busy = Sisselogimine…
 # Strings for the general main window layout of the launcher
-main-window-title = Trauma Station Käivitusprogramm
+main-window-title = Space Station 15 Käivitusprogramm
 # Strings for the general main window layout of the launcher
 main-window-header-link-discord = Discord
 # Strings for the general main window layout of the launcher

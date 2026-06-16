@@ -103,7 +103,7 @@ connecting-status-update-error =
     - Probeer met een andere server te connecteren om te zien of het probleem blijft gebeuren.
     - Probeer software zoals VPNs aan of uit te zetten, als je er hebt.
 
-    Als je nog steeds problemen hebt, probeer eerst contact op te nemen met de server waarmee je wil connecteren, voordat je voor hulp vraagt op de Officiële Trauma Station Discord.
+    Als je nog steeds problemen hebt, probeer eerst contact op te nemen met de server waarmee je wil connecteren, voordat je voor hulp vraagt op de Officiële Space Station 15 Discord.
 
     Technische fout: { $err }
 # Strings for the "forgot password" view on login
@@ -205,7 +205,7 @@ filters-18-no = Nee
 # Strings for the server filters menu
 filters-18-no-desc = Nee
 # Strings for the general main window layout of the launcher
-main-window-title = Trauma Station Launcher
+main-window-title = Space Station 15 Launcher
 # Strings for the general main window layout of the launcher
 main-window-header-link-discord = Discord
 # Strings for the general main window layout of the launcher

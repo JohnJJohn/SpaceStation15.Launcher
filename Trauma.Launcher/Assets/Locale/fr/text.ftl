@@ -152,7 +152,7 @@ login-confirmation-button-cancel = Annuler
 # Strings for the "register confirmation" view on login
 login-confirmation-busy = Connexion…
 # Strings for the general main window layout of the launcher
-main-window-title = Launcher de Trauma Station
+main-window-title = Launcher de Space Station 15
 # Strings for the general main window layout of the launcher
 main-window-header-link-discord = Discord
 # Strings for the general main window layout of the launcher
@@ -179,7 +179,7 @@ connecting-status-update-error =
     - Essayez de vous connecter à un autre serveur pour vérifier si le problème persiste.
     - Essayez de désactivez votre VPN si vous en avez un.
 
-    Si le problème persiste, contactez d'abord le serveur sur lequel vous essayez de vous connecter avant de demander de l'aide sur le serveur Discord Officiel de Trauma Station.
+    Si le problème persiste, contactez d'abord le serveur sur lequel vous essayez de vous connecter avant de demander de l'aide sur le serveur Discord Officiel de Space Station 15.
 
     Error : { $err }
 # Strings for the "connecting" menu that appears when connecting to a server.

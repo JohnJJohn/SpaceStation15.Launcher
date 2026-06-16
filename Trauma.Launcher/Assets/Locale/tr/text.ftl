@@ -30,7 +30,7 @@ connecting-status-update-error =
     - Başka bir sunucuya bağlanarak sıkıntının devam edip etmediğini kontrol ediniz.
     - VPN gibi yazılımlarınız varsa onları kapatmayı veya açmayı deneyiniz.
 
-    Eğer hala sıkıntı yaşıyorsanız, Trauma Station Discord veya Forumlara sormadan önce bağlanmaya çalıştığınız sunucuyla iletişime geçiniz.
+    Eğer hala sıkıntı yaşıyorsanız, Space Station 15 Discord veya Forumlara sormadan önce bağlanmaya çalıştığınız sunucuyla iletişime geçiniz.
 
     Teknik hata: { $err }
 # Strings for the "connecting" menu that appears when connecting to a server.
@@ -193,7 +193,7 @@ login-login-busy-logging-in = Giriş yapılıyor…
 # Strings for the "login" view on login
 login-login-error-title = Giriş yapılamıyor
 # Strings for the general main window layout of the launcher
-main-window-title = Trauma Station Launcher
+main-window-title = Space Station 15 Launcher
 # Strings for the general main window layout of the launcher
 main-window-header-link-discord = Discord
 # Strings for the general main window layout of the launcher

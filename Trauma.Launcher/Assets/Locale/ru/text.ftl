@@ -25,7 +25,7 @@ connecting-status-update-error =
     - Попробуйте подключиться к другому серверу и проверьте, сохраняется ли проблема.
     - Попробуйте выключить или включить программы по типу VPN, если они у вас есть.
 
-    Если у вас все еще возникают проблемы, сначала попробуйте связаться с сервером, к которому вы пытаетесь присоединиться, прежде чем просить поддержки в официальном Discord Trauma Station или на форумах.
+    Если у вас все еще возникают проблемы, сначала попробуйте связаться с сервером, к которому вы пытаетесь присоединиться, прежде чем просить поддержки в официальном Discord Space Station 15 или на форумах.
 
     Ошибка: { $err }
 # Strings for the "hub settings" dialog window.
@@ -222,7 +222,7 @@ login-login-busy-logging-in = Вход…
 # Strings for the "login" view on login
 login-login-error-title = Не удалось войти
 # Strings for the general main window layout of the launcher
-main-window-title = Лаунчер Trauma Station
+main-window-title = Лаунчер Space Station 15
 # Strings for the general main window layout of the launcher
 main-window-header-link-website = Веб-сайт
 # Strings for the general main window layout of the launcher

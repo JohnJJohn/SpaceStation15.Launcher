@@ -35,7 +35,7 @@ connecting-status-update-error =
     - Prova a connetterti a un server di gioco diverso per vedere se il problema persiste.
     - Prova a disabilitare o abilitare software come VPN, se ne hai una.
 
-    Se stai ancora avendo problemi, prova a contattare il server a cui stai cercando di connetterti prima di chiedere supporto sul Discord o sui Forum Ufficiali di Trauma Station.
+    Se stai ancora avendo problemi, prova a contattare il server a cui stai cercando di connetterti prima di chiedere supporto sul Discord o sui Forum Ufficiali di Space Station 15.
 
     Errore tecnico: { $err }
 # Strings for the "connecting" menu that appears when connecting to a server.
@@ -146,7 +146,7 @@ login-confirmation-confirmation-message = Controlla la tua email per confermare 
 login-confirmation-button-confirm = Ho confermato il mio account
 login-confirmation-button-cancel = Annulla
 login-confirmation-busy = Accedo…
-main-window-title = Launcher di Trauma Station
+main-window-title = Launcher di Space Station 15
 main-window-header-link-discord = Discord
 main-window-header-link-website = Sito web
 main-window-out-of-date = Launcher non aggiornato

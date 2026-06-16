@@ -129,7 +129,7 @@ internal static class Program
             return;
 
         var text =
-            "You are using an old version of Windows that is no longer supported by Trauma Station.\n\n" +
+            "You are using an old version of Windows that is no longer supported by Space Station 15.\n\n" +
             "If anything breaks, DO NOT ASK FOR HELP OR SUPPORT.";
 
         var caption = "Unsupported Windows version";
@@ -138,7 +138,7 @@ internal static class Program
 
         if (Language.UserHasLanguage("ru"))
         {
-            text = "Вы используете старую версию Windows которая больше не поддерживается Trauma Station.\n\n" +
+            text = "Вы используете старую версию Windows которая больше не поддерживается Space Station 15.\n\n" +
                    "При возникновении ошибок НЕ БУДЕТ ОКАЗАНО НИКАКОЙ ПОДДЕРЖКИ.";
 
             caption = "Неподдерживаемая версия Windows";

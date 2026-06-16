@@ -54,7 +54,7 @@ connecting-status-update-error =
     - Próbálj egy másik szerverre csatlakozni, hogy lásd, ott is fennáll-e a probléma.
     - Próbáld meg ki-, vagy bekapcsolni az olyan, vagy hasonló alkalmazásokat, mint a VPN.
 
-    Hogyha a probléma továbbra is fennáll, először kérj segítséget a szerver üzemeltetőitől, mielőtt a Trauma Station hivatalos Discordjához, vagy Fórumaihoz fordulnál.
+    Hogyha a probléma továbbra is fennáll, először kérj segítséget a szerver üzemeltetőitől, mielőtt a Space Station 15 hivatalos Discordjához, vagy Fórumaihoz fordulnál.
 
     Technikai hiba: { $err }
 connecting-update-status-fetching-manifest = Szerver erőforrásainak lekérése…
@@ -112,7 +112,7 @@ login-forgot-success-title = Helyreállító email elküldve
 login-login-show-password = Jelszó Megjelenítése
 login-confirmation-confirmation-message = Kérlek ellenőrizd az email címed a fiókod megerősítéséhez. Miután megerősítetted a fiókod, kattints a bejelentkezés alatti gombra.
 login-confirmation-confirmation-title = Regisztráció megerősítése
-main-window-title = Trauma Station Launcher
+main-window-title = Space Station 15 Launcher
 main-window-header-link-website = Weboldal
 main-window-out-of-date-desc =
     Ez a Launcher elavult.

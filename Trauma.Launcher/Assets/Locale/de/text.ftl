@@ -156,7 +156,7 @@ login-login-busy-logging-in = Anmelden…
 # Strings for the "login" view on login
 login-login-error-title = Anmeldung fehlgeschlagen
 # Strings for the general main window layout of the launcher
-main-window-title = Trauma Station Launcher
+main-window-title = Space Station 15 Launcher
 # Strings for the general main window layout of the launcher
 main-window-header-link-discord = Discord
 # Strings for the "connecting" menu that appears when connecting to a server.

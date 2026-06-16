@@ -209,7 +209,7 @@ login-login-busy-logging-in = Accediendo…
 # Strings for the "login" view on login
 login-login-error-title = No se ha podido acceder
 # Strings for the general main window layout of the launcher
-main-window-title = Trauma Station Launcher
+main-window-title = Space Station 15 Launcher
 # Strings for the general main window layout of the launcher
 main-window-header-link-discord = Discord
 # Strings for the general main window layout of the launcher

@@ -77,7 +77,7 @@ direct-connect-address-invalid = Malvalida adreso
 login-expired-button-log-in = Ensaluti
 login-login-title = Ensaluti
 login-login-button-log-in = Ensaluti
-main-window-title = Lanĉilo de Trauma Station
+main-window-title = Lanĉilo de Space Station 15
 main-window-header-link-website = Retejo
 connecting-update-status-ready = Ĝisdatigo kompletis!
 server-entry-connect = Konekti
@@ -192,7 +192,7 @@ connecting-status-update-error =
     - Provu konektiĝi al alia ludservlio por vidi ĉu la atentindaĵo daŭras.
     - Provu ŝalti aŭ malŝalti softvaron kiel VPNojn, se vi havas ajnan.
 
-    Se vi ankoraŭ havas problemojn, unue provu kontakti la administratojn de la servilo al kiu vi provas konekti, antaŭ ol peti asiston en la Oficiala Diskordo aŭ Oficiala Forumo de Trauma Station.
+    Se vi ankoraŭ havas problemojn, unue provu kontakti la administratojn de la servilo al kiu vi provas konekti, antaŭ ol peti asiston en la Oficiala Diskordo aŭ Oficiala Forumo de Space Station 15.
 
     Teknika eraro: { $err }
 connecting-update-status-downloading-engine-modules = Elŝutanta ceterajn dependeĵojn…

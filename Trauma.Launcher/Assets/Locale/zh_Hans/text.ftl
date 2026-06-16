@@ -463,7 +463,7 @@ connecting-status-update-error =
     - 连接其它服务器来检查问题是否会重现。
     - 如果有VPN和加速器之类的软件，可以试着禁用或启用。
 
-    如果你的问题仍然没有解决，请先试试与你尝试加入的服务器取得联系，然后再考虑前往官方Trauma Station的Discord或论坛取得帮助。
+    如果你的问题仍然没有解决，请先试试与你尝试加入的服务器取得联系，然后再考虑前往官方Space Station 15的Discord或论坛取得帮助。
 
     技术错误：{ $err }
 # Strings for the "connecting" menu that appears when connecting to a server.

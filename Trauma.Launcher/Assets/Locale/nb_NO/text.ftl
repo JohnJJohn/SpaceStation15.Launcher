@@ -19,7 +19,7 @@ connecting-status-update-error =
     - Prøv å koble til en annen sørver, for å se om problemet fortsetter
     -Prøv å skru av eller på programvare som for eksempelvis VPNer, Hvis du har det.
 
-    Hvis du fremdeles har problemer, prøv å kontakte sørveren som du prøver å bli med på før du spør etter help på den offisielle Trauma Station Discord.
+    Hvis du fremdeles har problemer, prøv å kontakte sørveren som du prøver å bli med på før du spør etter help på den offisielle Space Station 15 Discord.
 
     Teknisk feil: { $err }
 connecting-cancel = Avbryt
@@ -87,7 +87,7 @@ login-confirmation-confirmation-message = Vennligst sjekk e-posten din for å be
 login-confirmation-button-confirm = Jeg har bekreftet kontoen min
 login-confirmation-button-cancel = Avbryt
 login-confirmation-busy = Logger inn…
-main-window-title = Trauma Station Oppstarter
+main-window-title = Space Station 15 Oppstarter
 main-window-header-link-discord = Discord
 main-window-header-link-website = Nettside
 login-login-error-title = Kan ikke logge inn

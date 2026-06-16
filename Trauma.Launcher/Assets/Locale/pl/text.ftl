@@ -20,7 +20,7 @@ connecting-status-update-error =
     - Spróbuj połączyć się z innym serwerem rzeby zobaczyć czy problem ustaje.
     - Spróbuj wyłączyć lub włączyć programy takie jak VPN, jeżeli takie posiadasz.
 
-    Jeżeli błąd występuje dalej, najpierw spróbuj zkontaktować się z serwerem do którego probujesz dołączyć przed zapytaniem się o pomoc na Oficialnym Discordzie Trauma Station lub na Forum.
+    Jeżeli błąd występuje dalej, najpierw spróbuj zkontaktować się z serwerem do którego probujesz dołączyć przed zapytaniem się o pomoc na Oficialnym Discordzie Space Station 15 lub na Forum.
 
     Usterka techniczna: { $err }
 # Strings for the "connecting" menu that appears when connecting to a server.
@@ -271,7 +271,7 @@ main-window-out-of-date-exit = Wyjście
 # Strings for the general main window layout of the launcher
 main-window-header-link-website = Strona internetowa
 # Strings for the general main window layout of the launcher
-main-window-title = Program uruchamiający Trauma Station
+main-window-title = Program uruchamiający Space Station 15
 # Strings for the "register confirmation" view on login
 login-confirmation-busy = Logowanie…
 # Strings for the "login" view on login

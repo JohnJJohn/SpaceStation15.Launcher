@@ -25,7 +25,7 @@ connecting-status-update-error =
     - Încearcă să te conectezi la un server diferit ca să vezi dacă problema persistă.
     - Încearcă să oprești si/sau să activezi programe ca și VPN-uri, dacă ai unul.
 
-    Dacă încă ai probleme, încearcă să contactezi serverul pe care încerci să te conectezi înainte să întrebi de ajutor pe Discordul oficial sau Forumul de la Trauma Station.
+    Dacă încă ai probleme, încearcă să contactezi serverul pe care încerci să te conectezi înainte să întrebi de ajutor pe Discordul oficial sau Forumul de la Space Station 15.
 
     Eroare tehnica: { $err }
 connecting-status-client-crashed = Clientul pare că s-a blocat la pornire. Dacă acest lucru persistă, te rog întreabă pe Discord sau GitHub pentru suport.
@@ -208,7 +208,7 @@ login-expired-password-watermark = Parolă
 login-expired-button-forgot-password = Ai uitat parola ta?
 login-login-title = Autentifică-te
 login-login-error-title = Nu s-a putut face conectarea
-main-window-title = Lansatorul Trauma Station
+main-window-title = Lansatorul Space Station 15
 main-window-drag-drop-prompt = Aruncă ca să pornești jocul
 main-window-busy-checking-login-status = Se actualizează starea de conectare…
 region-asia-east = Asia de Est

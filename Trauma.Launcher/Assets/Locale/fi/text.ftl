@@ -186,7 +186,7 @@ main-window-error-unknown = Tunematon virhe
 # Strings for the general main window layout of the launcher
 main-window-drag-drop-prompt = Pudota käynnistääksesi pelin
 # Strings for the general main window layout of the launcher
-main-window-title = Trauma Station Launcher
+main-window-title = Space Station 15 Launcher
 # Long region names for server tag filters (shown in tooltip)
 region-middle-east = Lähi-Itä
 # Long region names for server tag filters (shown in tooltip)

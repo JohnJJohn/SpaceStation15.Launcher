@@ -52,7 +52,7 @@ connecting-status-update-error =
     - o tawa tomo ante. o lukin e ni: pakala ni li lon ala lon?
     - sina jo e ilo linluwi la o open o pini e ona. jan mute li jo e ilo linluwi VPN.
 
-    pakala ni li awen la, o toki e ni tawa lawa pi tomo ni. ona li sona ala la o tawa tomo lipu toki pi kulupu Trauma Station.
+    pakala ni li awen la, o toki e ni tawa lawa pi tomo ni. ona li sona ala la o tawa tomo lipu toki pi kulupu Space Station 15.
 
     pakala lon toki ilo: { $err }
 connecting-status-updating = mi pali: { $status }

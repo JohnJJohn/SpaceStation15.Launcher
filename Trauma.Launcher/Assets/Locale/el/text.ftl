@@ -55,7 +55,7 @@ connecting-status-update-error =
     - Δοκιμάστε να συνδεθείτε σε έναν άλλο διακομιστή για να δείτε αν το πρόβλημα παραμένει.
     - Δοκιμάστε να απενεργοποιήσετε ή να ενεργοποιήσετε προγράμματα σαν VPN, εάν έχετε.
 
-    Αν συνεχίζετε να έχετε προβλήματα, προσπαθήστε πρώτα να επικοινωνήσετε με τον διακομιστή στον οποίο προσπαθείτε να συνδεθείτε, πριν ζητήσετε υποστήριξη στο επίσημο Discord ή στο φόρουμ του Trauma Station.
+    Αν συνεχίζετε να έχετε προβλήματα, προσπαθήστε πρώτα να επικοινωνήσετε με τον διακομιστή στον οποίο προσπαθείτε να συνδεθείτε, πριν ζητήσετε υποστήριξη στο επίσημο Discord ή στο φόρουμ του Space Station 15.
 
     Τεχνικό σφάλμα: { $err }
 # Localization for the "add favorite server" dialog window
@@ -175,7 +175,7 @@ login-forgot-success-title = Το email επαναφοράς έχει σταλε
 # Strings for the "login" view on login
 login-login-busy-logging-in = Γίνετε σύνδεση…
 # Strings for the general main window layout of the launcher
-main-window-title = Trauma Station Launcher
+main-window-title = Space Station 15 Launcher
 # Long region names for server tag filters (shown in tooltip)
 region-asia-south-east = Νοτιοανατολική Ασία
 # Long region names for server tag filters (shown in tooltip)
