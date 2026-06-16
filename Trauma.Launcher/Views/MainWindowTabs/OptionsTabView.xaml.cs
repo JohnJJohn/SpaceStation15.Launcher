@@ -16,8 +16,7 @@ public partial class OptionsTabView : UserControl
 
         Flip.Command = ReactiveCommand.Create(() =>
         {
-            var window = (Window?) VisualRoot;
-            if (window == null)
+            if (TopLevel.GetTopLevel(this) is not Window window)
                 return;
 
             window.Classes.Add("DoAFlip");
