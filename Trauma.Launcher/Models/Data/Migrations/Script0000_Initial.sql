@@ -28,7 +28,7 @@ CREATE TABLE ServerContent (
 );
 
 CREATE TABLE EngineInstallation (
-	Engine Text NOT NULL,
+	Engine TEXT NOT NULL,
     Version TEXT PRIMARY KEY NOT NULL,
     Signature TEXT NOT NULL
 );
