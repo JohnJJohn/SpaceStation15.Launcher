@@ -115,6 +115,10 @@ internal static class Program
         {
             BuildAvaloniaApp(cfg).StartWithClassicDesktopLifetime(args);
         }
+        catch (Exception e)
+        {
+            Log.Fatal(e, "Uncaught launcher exception!");
+        }
         finally
         {
             Log.CloseAndFlush();
