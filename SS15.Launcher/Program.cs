@@ -115,6 +115,10 @@ internal static class Program
         {
             BuildAvaloniaApp(cfg).StartWithClassicDesktopLifetime(args);
         }
+        catch (Exception e)
+        {
+            Log.Fatal(e, "Uncaught launcher exception!");
+        }
         finally
         {
             Log.CloseAndFlush();
@@ -258,7 +262,6 @@ internal static class Program
             curArchitecture);
 
         engineManager.ClearAllEngines();
-        cfg.SetCVar(CVars.CurrentArchitecture, (int) curArchitecture);
-        cfg.CommitConfig();
+        cfg.SetCVar(CVars.CurrentArchitecture, (int) curArchitecture, commit: true);
     }
 }
